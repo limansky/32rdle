@@ -1,0 +1,41 @@
+.boards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 600px;
+  width: 100%;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  margin: 2px;
+}
+
+.letter {
+  margin: 1px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.letter.miss {
+  background-color: var(--letter-miss);
+}
+
+.letter.guess {
+  background-color: var(--letter-guess);
+}
+
+.letter.wrong-position {
+  background-color: var(--letter-wrong-possition);
+}
+
+.letter-itself {
+  color: white;
+}
+
+:root {
+  --letter-miss: #5c5c70;
+  --letter-guess: #49d088;
+  --letter-wrong-possition: #eabf3e;
+}
