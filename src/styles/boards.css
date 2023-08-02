@@ -34,8 +34,19 @@
   color: white;
 }
 
+.input-letter {
+  margin: 1px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 27px;
+  background-color: var(--input-letter);
+  color: white;
+}
+
 :root {
   --letter-miss: #5c5c70;
   --letter-guess: #49d088;
   --letter-wrong-possition: #eabf3e;
+  --input-letter: #2e2e38;
 }

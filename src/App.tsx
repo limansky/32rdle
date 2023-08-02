@@ -17,6 +17,7 @@ function App() {
   function onEnter() {
     if (input.length < 5) setInput(""); else {
       dispatch(addWord(input));
+      setInput("");
       console.log("Enter " + input);
     }
   }
@@ -30,7 +31,7 @@ function App() {
   return (
     <>
       <h1>Это 32rdle</h1>
-      <Boards />
+      <Boards input={input}/>
       <Keyboard onLetter={onButton} onBackspace={onBackspace} onEnter={onEnter}/>
     </>
   );
