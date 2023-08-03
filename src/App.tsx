@@ -4,11 +4,27 @@ import { Boards } from './components/Boards';
 import { Keyboard } from './components/Keyboard';
 import { useDispatch } from 'react-redux';
 import { addWord } from './app/wordsSlice';
+import { Header } from './components/Header';
+import dict from './data/dict.json';
+
+function genWords(ws: string[]): string[] {
+  var ids: number[] = [];
+  while (ids.length < 32) {
+    var next = Math.floor(Math.random() * ws.length + 1);
+    if (!ids.includes(next)) ids.push(next);
+  }
+  console.log("got words " + ids);
+
+  return ids.map(x => ws[x]);
+}
 
 function App() {
 
   const [input, setInput] = useState("");
   const dispatch = useDispatch();
+
+  const knownWords: Array<string> = dict.map(x => x.toUpperCase());
+  const [words, _setWords] = useState<Array<string>>(() => genWords(knownWords));
 
   function onButton(s: string) {
     if (input.length < 5) setInput(input + s);
@@ -16,7 +32,9 @@ function App() {
 
   function onEnter() {
     if (input.length < 5) setInput(""); else {
-      dispatch(addWord(input));
+      if (knownWords.includes(input)) {
+        dispatch(addWord(input));
+      }
       setInput("");
       console.log("Enter " + input);
     }
@@ -29,11 +47,11 @@ function App() {
   }
 
   return (
-    <>
-      <h1>Это 32rdle</h1>
-      <Boards input={input}/>
+    <div className='game'>
+      <Header />
+      <Boards input={input} words={words}/>
       <Keyboard onLetter={onButton} onBackspace={onBackspace} onEnter={onEnter}/>
-    </>
+    </div>
   );
 }
 

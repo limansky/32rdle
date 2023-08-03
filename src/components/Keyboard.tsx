@@ -11,7 +11,7 @@ export function Keyboard({ onLetter, onBackspace, onEnter }: {
   const layout = [
     ['Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ'],
     ['Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э'],
-    ['bksp', 'Я', 'Ч', 'C', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', 'enter']
+    ['bksp', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', 'enter']
   ];
 
   function createKey(s: string) {
