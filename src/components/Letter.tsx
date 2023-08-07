@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import "../styles/boards.css";
 
 export enum LetterState {
@@ -15,7 +16,7 @@ function letterStateClass(state: LetterState) {
 }
 
 export function Letter(letter: String, state: LetterState) {
-  return <div className={"letter " + letterStateClass(state)}>
+  return <div className={clsx("letter", letterStateClass(state))}>
     <span className='letter-itself'>{letter}</span>
   </div>;
 }

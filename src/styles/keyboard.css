@@ -5,6 +5,7 @@
   max-width: 600px;
   position: absolute;
   bottom: 0;
+  background: black;
 }
 
 .keyboard-row-1 {
