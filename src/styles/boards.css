@@ -4,6 +4,7 @@
   max-width: 600px;
   width: 100%;
   overflow-y: scroll;
+  align-content: start;
 }
 
 .board {
