@@ -6,11 +6,16 @@ import { useDispatch } from 'react-redux';
 import { addWord } from './app/wordsSlice';
 import { Header } from './components/Header';
 import dict from './data/dict.json';
+import { MersenneTwister19937, Random } from 'random-js';
 
 function genWords(ws: string[]): string[] {
+  const date = new Date();
+  date.setUTCHours(0, 0, 0, 0);
+  const seed = date.getTime() / 1000;
+  const random = new Random(MersenneTwister19937.seed(seed));
   var ids: number[] = [];
   while (ids.length < 32) {
-    var next = Math.floor(Math.random() * ws.length + 1);
+    var next = random.integer(0, ws.length);
     if (!ids.includes(next)) ids.push(next);
   }
   console.log("got words " + ids);
