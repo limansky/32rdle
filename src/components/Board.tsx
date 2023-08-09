@@ -13,8 +13,8 @@ export enum BoardState {
   Solved
 }
 
-function letters(word: string, answer: string): Array<JSX.Element> {
-  return wordStatus(word, answer).map((s, i) => Letter(answer[i], s));
+function letters(guess: string, answer: string): Array<JSX.Element> {
+  return wordStatus(answer, guess).map((s, i) => Letter(guess[i], s));
 }
 
 function boardStateClass(state: BoardState) {
@@ -43,13 +43,19 @@ export function Board(word: string, input: string) {
   }
 
   const [words, setWords] = useState(Array<string>);
-  const opened = words.map(w => letters(w, word));
+  const opened: Array<Array<JSX.Element>> = [];
+
+  for (let i = 0; i < words.length; i++) {
+    opened.push(letters(words[i], word));
+    if (words[i] == word) break;
+  }
+
   const knownWords = useAppSelector(wordsSelector);
   useEffect(() => {
     setWords(knownWords);
     if (knownWords.includes(word)) setState(BoardState.Solved);
   }, [knownWords]);
-  const inputLetters: Array<JSX.Element> = words[words.length - 1] != word ? inputArea(input) : [];
+  const inputLetters: Array<JSX.Element> = state != BoardState.Solved ? inputArea(input) : [];
   return <div className={clsx('board', boardStateClass(state))} onClick={onClick}>
     {...opened}
     {...inputLetters}

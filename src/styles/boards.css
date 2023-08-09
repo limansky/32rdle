@@ -11,6 +11,7 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   margin: 2px;
+  align-content: start;
 }
 
 .board.selected {
@@ -24,6 +25,7 @@
 
 .letter {
   margin: 1px;
+  height: 27px;
   align-items: center;
   display: flex;
   justify-content: center;
