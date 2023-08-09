@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Letter, LetterState } from "./Letter";
+import { Letter } from "./Letter";
 import "../styles/boards.css";
 import { InputLetter } from "./InputLetter";
 import { useAppSelector } from "../app/hooks";
 import { wordsSelector } from "../app/wordsSlice";
 import clsx from "clsx";
+import { wordStatus } from "../utils/words";
 
 export enum BoardState {
   Normal,
@@ -13,10 +14,7 @@ export enum BoardState {
 }
 
 function letters(word: string, answer: string): Array<JSX.Element> {
-  return Array.from(word).map((c, i) => {
-    let state = answer[i] === c ? LetterState.Guess : answer.indexOf(c) !== -1 ? LetterState.WrongPosition : LetterState.Miss;
-    return Letter(c, state);
-  });
+  return wordStatus(word, answer).map((s, i) => Letter(answer[i], s));
 }
 
 function boardStateClass(state: BoardState) {
