@@ -2,11 +2,10 @@ import { useState } from 'react';
 import './App.css'
 import { Boards } from './components/Boards';
 import { Keyboard } from './components/Keyboard';
-import { useDispatch } from 'react-redux';
-import { addWord } from './app/wordsSlice';
 import { Header } from './components/Header';
 import dict from './data/dict.json';
 import { MersenneTwister19937, Random } from 'random-js';
+import { useWordsStore } from './app/wordsStore';
 
 function genWords(ws: string[]): string[] {
   const date = new Date();
@@ -26,10 +25,10 @@ function genWords(ws: string[]): string[] {
 function App() {
 
   const [input, setInput] = useState("");
-  const dispatch = useDispatch();
+  const { addWord } = useWordsStore();
 
   const knownWords: Array<string> = dict.map(x => x.toUpperCase());
-  const [words, _setWords] = useState<Array<string>>(() => genWords(knownWords));
+  const [answer, _setAnswer] = useState<Array<string>>(() => genWords(knownWords));
 
   function onButton(s: string) {
     if (input.length < 5) setInput(input + s);
@@ -38,7 +37,7 @@ function App() {
   function onEnter() {
     if (input.length < 5) setInput(""); else {
       if (knownWords.includes(input)) {
-        dispatch(addWord(input));
+        addWord(input);
       }
       setInput("");
       console.log("Enter " + input);
@@ -54,7 +53,7 @@ function App() {
   return (
     <div className='game'>
       <Header />
-      <Boards input={input} words={words}/>
+      <Boards input={input} words={answer}/>
       <Keyboard onLetter={onButton} onBackspace={onBackspace} onEnter={onEnter}/>
     </div>
   );

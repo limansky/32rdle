@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { Letter } from "./Letter";
 import "../styles/boards.css";
 import { InputLetter } from "./InputLetter";
-import { useAppSelector } from "../app/hooks";
-import { wordsSelector } from "../app/wordsSlice";
 import clsx from "clsx";
 import { wordStatus } from "../utils/words";
+import { useWordsStore } from "../app/wordsStore";
 
 export enum BoardState {
   Normal,
@@ -42,19 +41,19 @@ export function Board(word: string, input: string) {
     else if (state == BoardState.Selected) setState(BoardState.Normal);
   }
 
-  const [words, setWords] = useState(Array<string>);
+  // const [words, setWords] = useState(Array<string>);
   const opened: Array<Array<JSX.Element>> = [];
+  const { words } = useWordsStore();
 
   for (let i = 0; i < words.length; i++) {
     opened.push(letters(words[i], word));
     if (words[i] == word) break;
   }
 
-  const knownWords = useAppSelector(wordsSelector);
+
   useEffect(() => {
-    setWords(knownWords);
-    if (knownWords.includes(word)) setState(BoardState.Solved);
-  }, [knownWords]);
+    if (words.includes(word)) setState(BoardState.Solved);
+  }, [words]);
   const inputLetters: Array<JSX.Element> = state != BoardState.Solved ? inputArea(input) : [];
   return <div className={clsx('board', boardStateClass(state))} onClick={onClick}>
     {...opened}
