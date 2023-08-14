@@ -25,10 +25,11 @@ function genWords(ws: string[]): string[] {
 function App() {
 
   const [input, setInput] = useState("");
-  const { addWord } = useWordsStore();
+  const { addWord, words } = useWordsStore();
 
   const knownWords: Array<string> = dict.map(x => x.toUpperCase());
   const [answer, _setAnswer] = useState<Array<string>>(() => genWords(knownWords));
+  const boards = Array(32).fill(false);
 
   function onButton(s: string) {
     if (input.length < 5) setInput(input + s);
@@ -52,7 +53,7 @@ function App() {
 
   return (
     <div className='game'>
-      <Header />
+      <Header moves={words.length} boards={boards}/>
       <Boards input={input} words={answer}/>
       <Keyboard onLetter={onButton} onBackspace={onBackspace} onEnter={onEnter}/>
     </div>
