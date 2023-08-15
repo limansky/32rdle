@@ -10,7 +10,6 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  min-width: var(--width);
   justify-content: stretch;
   align-items: center;
 }
