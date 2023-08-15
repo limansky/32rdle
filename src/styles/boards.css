@@ -1,10 +1,14 @@
 .boards {
   display: grid;
+  flex: 1 1;
   grid-template-columns: repeat(4, 1fr);
-  max-width: 600px;
+  row-gap: 18px;
+  max-width: var(--width);
   width: 100%;
   overflow-y: scroll;
   align-content: start;
+  margin: auto;
+  padding: 8px;
 }
 
 .board {
