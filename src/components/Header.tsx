@@ -1,5 +1,6 @@
 import '../styles/header.css';
 import { BoardsStatistics } from './BoardsStatistics';
+import { GuessIndicator } from './GuessIndicator';
 import { GuessStatistics } from './GuessStatistics';
 
 type HeaderStats = {
@@ -19,6 +20,7 @@ export const Header = ({moves, boards}: HeaderStats) => {
       <GuessStatistics moves={moves} ahead={5 - moves + solved}/>
     </div>
     <div className="row3">
+      <GuessIndicator boards={boards} />
     </div>
   </div>;
 }

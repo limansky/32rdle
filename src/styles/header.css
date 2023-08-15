@@ -26,7 +26,10 @@
 }
 
 .row3 {
+  display: flex;
+  gap: 1px;
   max-width: var(--width);
+  width: 100%;
 }
 
 .filler {
@@ -41,8 +44,23 @@
   color: var(--red);
 }
 
+.guess-indicator-button {
+  background-color: var(--medium-gray);
+  color: white;
+  border: none;
+  padding: 4px 0;
+  font-size: 8px;
+  flex: 1 1;
+}
+
+.guess-indicator-button.done {
+  background-color: var(--letter-guess);
+  color: black;
+}
+
 :root {
   --green: #12bc00;
   --red: #fb3636;
   --dark-gray: #17171c;
+  --medium-gray: #454554;
 }

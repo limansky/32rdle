@@ -9,7 +9,7 @@ import { useWordsStore } from './app/wordsStore';
 
 function genWords(ws: string[]): string[] {
   const date = new Date();
-  date.setUTCHours(0, 0, 0, 0);
+  date.setHours(0, 0, 0, 0);
   const seed = date.getTime() / 1000;
   const random = new Random(MersenneTwister19937.seed(seed));
   var ids: number[] = [];
@@ -29,7 +29,7 @@ function App() {
 
   const knownWords: Array<string> = dict.map(x => x.toUpperCase());
   const [answer, _setAnswer] = useState<Array<string>>(() => genWords(knownWords));
-  const boards = Array(32).fill(false);
+  const [guesses, setGuesses] = useState(Array(32).fill(false));
 
   function onButton(s: string) {
     if (input.length < 5) setInput(input + s);
@@ -39,9 +39,14 @@ function App() {
     if (input.length < 5) setInput(""); else {
       if (knownWords.includes(input)) {
         addWord(input);
+        const guess = answer.indexOf(input);
+        if (guess !== -1) {
+          let ng = [...guesses];
+          ng[guess] = true;
+          setGuesses(ng);
+        }
       }
       setInput("");
-      console.log("Enter " + input);
     }
   }
 
@@ -53,7 +58,7 @@ function App() {
 
   return (
     <div className='game'>
-      <Header moves={words.length} boards={boards}/>
+      <Header moves={words.length} boards={guesses}/>
       <Boards input={input} words={answer}/>
       <Keyboard onLetter={onButton} onBackspace={onBackspace} onEnter={onEnter}/>
     </div>
