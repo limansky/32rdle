@@ -51,6 +51,10 @@
   color: white;
 }
 
+.letter-preview {
+  color: var(--preview-color);
+}
+
 .input-letter {
   margin: 1px;
   align-items: center;
@@ -66,4 +70,5 @@
   --letter-guess: #49d088;
   --letter-wrong-possition: #eabf3e;
   --input-letter: #2e2e38;
+  --preview-color: #8f8fa3;
 }
