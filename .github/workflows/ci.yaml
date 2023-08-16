@@ -17,3 +17,6 @@ jobs:
 
     - name: Run tests
       run: yarn ci:test
+
+    - name: Build
+      run: yarn build
