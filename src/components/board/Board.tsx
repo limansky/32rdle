@@ -20,7 +20,6 @@ function boardStateClass(state: BoardState) {
 export function Board(word: string, input: string) {
 
   const [state, setState] = useState(BoardState.Normal);
-  const [guess, setGuess] = useState(Array(5).fill(false));
 
   function letters(guess: string, answer: string, gs: boolean[]): [Array<JSX.Element>, Array<boolean>] {
     const r = Array<JSX.Element>();
