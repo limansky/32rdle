@@ -1,4 +1,4 @@
-import '../styles/header.css';
+import '~/styles/header.css';
 import { BoardsStatistics } from './BoardsStatistics';
 import { GuessIndicator } from './GuessIndicator';
 import { GuessStatistics } from './GuessStatistics';

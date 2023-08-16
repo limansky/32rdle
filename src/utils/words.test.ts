@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 import { wordStatus } from './words';
-import { LetterState } from '../components/Letter';
+import { LetterState } from '../model/LetterState';
 
 test.each([
   ['пакля', 'кабак', [LetterState.WrongPosition, LetterState.Guess, LetterState.Miss, LetterState.Miss, LetterState.Miss]],

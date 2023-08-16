@@ -1,5 +1,5 @@
 import { Board } from "./Board";
-import "../styles/boards.css";
+import "~/styles/boards.css";
 
 export function Boards({input, words}: {
       input: string,

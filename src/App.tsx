@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import './App.css'
-import { Boards } from './components/Boards';
+import { Boards } from './components/board/Boards';
 import { Keyboard } from './components/Keyboard';
-import { Header } from './components/Header';
 import dict from './data/dict.json';
 import { MersenneTwister19937, Random } from 'random-js';
 import { useWordsStore } from './app/wordsStore';
+import { Header } from './components/header/Header';
 
 function genWords(ws: string[]): string[] {
   const date = new Date();

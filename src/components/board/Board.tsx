@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
 import { Letter } from "./Letter";
-import "../styles/boards.css";
 import { InputLetter } from "./InputLetter";
 import clsx from "clsx";
-import { wordStatus } from "../utils/words";
-import { useWordsStore } from "../app/wordsStore";
+import { wordStatus } from "../../utils/words";
+import { useWordsStore } from "../../app/wordsStore";
+import { BoardState } from "../../model/BoardState";
 
-export enum BoardState {
-  Normal,
-  Selected,
-  Solved
-}
+import "~/styles/boards.css";
 
 function letters(guess: string, answer: string): Array<JSX.Element> {
   return wordStatus(answer, guess).map((s, i) => Letter(guess[i], s));

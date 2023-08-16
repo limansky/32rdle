@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import "../styles/header.css"
+import "~/styles/header.css"
 
 type Props = {
   moves: number,

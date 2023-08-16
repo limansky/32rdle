@@ -1,4 +1,4 @@
-import { LetterState } from "../components/Letter";
+import { LetterState } from "../model/LetterState";
 
 export function wordStatus(word: string, guess: string): Array<LetterState> {
   const len = guess.length;

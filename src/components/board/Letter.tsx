@@ -1,11 +1,7 @@
-import clsx from "clsx";
-import "../styles/boards.css";
+import "~/styles/boards.css";
 
-export enum LetterState {
-  Guess,
-  WrongPosition,
-  Miss
-}
+import clsx from "clsx";
+import { LetterState } from "../../model/LetterState";
 
 function letterStateClass(state: LetterState) {
   switch (state) {
