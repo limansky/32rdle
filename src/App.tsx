@@ -6,6 +6,7 @@ import dict from './data/dict.json';
 import { MersenneTwister19937, Random } from 'random-js';
 import { useWordsStore } from './app/wordsStore';
 import { Header } from './components/header/Header';
+import { KeyState }  from './model/KeyState';
 
 function genWords(ws: string[]): string[] {
   const date = new Date();
@@ -17,10 +18,11 @@ function genWords(ws: string[]): string[] {
     var next = random.integer(0, ws.length);
     if (!ids.includes(next)) ids.push(next);
   }
-  console.log("got words " + ids);
 
   return ids.map(x => ws[x]);
 }
+
+const ALFABET = [ 'А','Б','В','Г','Д','Е','Ж','З','И','Й','К','Л','М','Н','О','П','Р','С','Т','У','Ф','Ц','Ч','Ш','Щ','Ъ','Ы','Ь','Э','Ю','Я'];
 
 function App() {
 
@@ -28,8 +30,13 @@ function App() {
   const { addWord, words } = useWordsStore();
 
   const knownWords: Array<string> = dict.map(x => x.toUpperCase());
-  const [answer, _setAnswer] = useState<Array<string>>(() => genWords(knownWords));
+  const [answer] = useState<Array<string>>(() => genWords(knownWords));
   const [guesses, setGuesses] = useState(Array(32).fill(false));
+
+  const allLetters = new Set(answer.flatMap((x, i) => !guesses[i] ? [...x] : []));
+  const knownLetters = new Set(words.flatMap(x => [...x]));
+
+  const keyState = new Map(ALFABET.map(l => [l, knownLetters.has(l) && !allLetters.has(l) ? KeyState.Absent : KeyState.Unknown]));
 
   function onButton(s: string) {
     if (input.length < 5) setInput(input + s);
@@ -60,7 +67,7 @@ function App() {
     <div className='game'>
       <Header moves={words.length} boards={guesses}/>
       <Boards input={input} words={answer}/>
-      <Keyboard onLetter={onButton} onBackspace={onBackspace} onEnter={onEnter}/>
+      <Keyboard onLetter={onButton} onBackspace={onBackspace} onEnter={onEnter} keyState={keyState} />
     </div>
   );
 }

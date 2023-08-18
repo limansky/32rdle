@@ -1,7 +1,9 @@
+import { KeyState } from "../model/KeyState";
 import { Key } from "./Key";
-import "../styles/keyboard.css"
+import "~/styles/keyboard.css";
 
-export function Keyboard({ onLetter, onBackspace, onEnter }: {
+export function Keyboard({ onLetter, onBackspace, onEnter, keyState }: {
+  keyState: Map<string, KeyState>,
   onLetter: (s: string) => void,
   onBackspace: () => void,
   onEnter: () => void,
@@ -15,10 +17,11 @@ export function Keyboard({ onLetter, onBackspace, onEnter }: {
   ];
 
   function createKey(s: string) {
+    const state = keyState.get(s) ?? KeyState.Unknown;
     switch (s) {
-      case 'bksp': return Key('⌫', onBackspace);
-      case 'enter': return Key('⏎', onEnter);
-      default: return Key(s, onLetter);
+      case 'bksp': return Key('⌫', onBackspace, state);
+      case 'enter': return Key('⏎', onEnter, state);
+      default: return Key(s, onLetter, state);
     }
   }
 

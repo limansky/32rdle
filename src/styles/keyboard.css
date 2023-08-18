@@ -39,6 +39,16 @@
   user-select: none;
 }
 
+.keyboard-key:active {
+  transform: translateY(2px);
+  filter: brightness(1.25);
+}
+
+.keyboard-key.absent {
+  background-color: black;
+  filter: contrast(0.5) brightness(0.5);
+}
+
 :root {
   --button-def: #5c5c70;
 }
