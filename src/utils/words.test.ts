@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { wordStatus } from './words';
+import { idForDate, wordStatus } from './words';
 import { LetterState } from '../model/LetterState';
 
 test.each([
@@ -10,4 +10,9 @@ test.each([
   ['шапка', 'папка', [LetterState.Miss, LetterState.Guess, LetterState.Guess, LetterState.Guess, LetterState.Guess]]
 ])('wordStatus(%s, %s) == %o', (word, guess, expected) => {
   expect(wordStatus(word, guess)).toStrictEqual(expected);
+});
+
+test("Game id for date", () => {
+  expect(idForDate(new Date(2023, 7, 15))).toEqual(1);
+  expect(idForDate(new Date(2023, 8, 20))).toEqual(6 + 31);
 });
