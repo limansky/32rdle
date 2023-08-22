@@ -27,7 +27,7 @@ function App() {
 
   const knownWords: Array<string> = dict.map(x => x.toUpperCase());
   const [answer] = useState<Array<string>>(() => genWords(knownWords, seed));
-  const [guesses, setGuesses] = useState(Array(32).fill(false));
+  const [guesses, setGuesses] = useState(answer.map(a => words.includes(a)));
 
   const allLetters = new Set(answer.flatMap((x, i) => !guesses[i] ? [...x] : []));
   const knownLetters = new Set(words.flatMap(x => [...x]));
