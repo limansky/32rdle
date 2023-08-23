@@ -9,14 +9,6 @@ import { BoardState } from "../../model/BoardState";
 import "~/styles/boards.css";
 import { LetterState } from "../../model/LetterState";
 
-function boardStateClass(state: BoardState) {
-  switch (state) {
-    case BoardState.Normal: return "";
-    case BoardState.Selected: return "selected";
-    case BoardState.Solved: return "solved";
-  }
-}
-
 export function Board(word: string, input: string) {
 
   const [state, setState] = useState(BoardState.Normal);
@@ -67,7 +59,10 @@ export function Board(word: string, input: string) {
     if (words.includes(word)) setState(BoardState.Solved);
   }, [words]);
   const inputLetters: Array<JSX.Element> = state != BoardState.Solved ? inputArea(input, ng) : [];
-  return <div className={clsx('board', boardStateClass(state))} onClick={onClick}>
+  return <div className={clsx('board', {
+    'selected': state === BoardState.Selected,
+    'solved': state === BoardState.Solved
+  })} onClick={onClick}>
     {...opened}
     {...inputLetters}
   </div>;

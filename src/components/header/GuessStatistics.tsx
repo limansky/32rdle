@@ -9,8 +9,8 @@ type Props = {
 export const GuessStatistics = ({ moves, ahead }: Props) => {
   const sign = ahead > 0 ? '+' : '';
   const style = clsx({
-        ['good'] : ahead > 0,
-        ['bad'] : ahead < 0
+        'good' : ahead > 0,
+        'bad' : ahead < 0
       });
   return <span className={style}>Ходы: {moves} / 37 ({sign}{ahead})</span>;
 }
