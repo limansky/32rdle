@@ -11,11 +11,18 @@
 }
 
 .header-title {
+  width: 100%;
   font-size: 24px;
 }
 
 .row1 {
   max-width: var(--width);
+  width: 100%;
+  display: flex;
+}
+
+.hidden {
+  display: none;
 }
 
 .row2 {

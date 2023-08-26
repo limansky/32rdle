@@ -6,5 +6,5 @@ type Props = {
 }
 
 export const GuessIndicator = ({boards}: Props) => {
-  return boards.map((g, i) => <button className={clsx('guess-indicator-button', { 'done' : g })}>{i + 1}</button>);
+  return boards.map((g, i) => <button className={clsx('guess-indicator-button', { 'done' : g })} key={i}>{i + 1}</button>);
 }

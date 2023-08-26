@@ -2,6 +2,8 @@ import '~/styles/header.css';
 import { BoardsStatistics } from './BoardsStatistics';
 import { GuessIndicator } from './GuessIndicator';
 import { GuessStatistics } from './GuessStatistics';
+import { Link } from 'wouter';
+import backUrl from '../../img/back.svg';
 
 type HeaderStats = {
   title: string,
@@ -13,6 +15,7 @@ export const Header = ({title, moves, boards}: HeaderStats) => {
   const solved = boards.reduce((a: number, b: boolean) => { if (b) return a + 1; else return a; }, 0);
   return <div className="header">
     <div className="row1">
+      <Link to="/"><img src={backUrl} /></Link>
       <span className="header-title">{title}</span>
     </div>
     <div className="row2">
