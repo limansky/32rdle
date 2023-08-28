@@ -47,6 +47,16 @@ export function Game({mode, dailyId}: {mode: GameMode, dailyId: number}) {
         const guess = answer.indexOf(input);
         if (guess !== -1) {
           let ns = [...states];
+          if (ns[guess] == BoardState.Selected) {
+            let next = (guess + 1) % 32;
+            while (ns[next] === BoardState.Solved && next != guess) {
+              next = (next + 1) % 32;
+            }
+            if (next != guess) {
+              ns[next] = BoardState.Selected;
+              setSelected(next);
+            }
+          }
           ns[guess] = BoardState.Solved;
           setStates(ns);
         }
