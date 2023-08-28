@@ -25,7 +25,7 @@ function App() {
   };
 
   return (
-    <>
+    <div className="app">
       <Router matcher={gameMatcher}>
       <Switch>
         <Route path="/"><MainMenu /></Route>
@@ -35,7 +35,7 @@ function App() {
         <Route><Redirect to="/" /></Route>
       </Switch>
       </Router>
-    </>
+    </div>
   );
 }
 

@@ -15,10 +15,21 @@
   font-size: 24px;
 }
 
+.simple-title {
+  width: 100%;
+  font-size: 28px;
+  padding: 10px;
+}
+
+.back-link {
+  height: 30px;
+}
+
 .row1 {
   max-width: var(--width);
   width: 100%;
   display: flex;
+  align-items: center;
 }
 
 .hidden {
