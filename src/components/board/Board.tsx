@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Letter } from "./Letter";
 import { InputLetter } from "./InputLetter";
 import clsx from "clsx";
@@ -9,16 +8,21 @@ import { BoardState } from "../../model/BoardState";
 import "~/styles/boards.css";
 import { LetterState } from "../../model/LetterState";
 
-export function Board(word: string, input: string) {
+interface Props {
+  word: string,
+  input: string,
+  state: BoardState,
+  handleClick?: (word: string) => void
+}
 
-  const [state, setState] = useState(BoardState.Normal);
+export const Board = ({word, input, state, handleClick}: Props) => {
 
   function letters(guess: string, answer: string, gs: boolean[]): [Array<JSX.Element>, Array<boolean>] {
     const r = Array<JSX.Element>();
 
     wordStatus(answer, guess).forEach((s, i) => {
       gs[i] ||= s == LetterState.Guess;
-      r.push(Letter(guess[i], s));
+      r.push(<Letter letter={guess[i]} state={s} key={i}/>);
     });
 
     return [r, gs];
@@ -39,8 +43,7 @@ export function Board(word: string, input: string) {
 
 
   function onClick(_e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    if (state === BoardState.Normal) setState(BoardState.Selected);
-    else if (state == BoardState.Selected) setState(BoardState.Normal);
+    handleClick?.(word);
   }
 
   const opened: Array<Array<JSX.Element>> = [];
@@ -55,9 +58,6 @@ export function Board(word: string, input: string) {
   }
 
 
-  useEffect(() => {
-    if (words.includes(word)) setState(BoardState.Solved);
-  }, [words]);
   const inputLetters: Array<JSX.Element> = state != BoardState.Solved ? inputArea(input, ng) : [];
   return <div className={clsx('board', {
     'selected': state === BoardState.Selected,

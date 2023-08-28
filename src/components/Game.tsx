@@ -8,6 +8,7 @@ import { Header } from './header/Header';
 import { KeyState }  from '../model/KeyState';
 import { genWords, seedForId } from '../utils/words';
 import { GameMode } from '../model/GameMode';
+import { BoardState } from '../model/BoardState';
 
 
 const ALFABET = [ 'А','Б','В','Г','Д','Е','Ж','З','И','Й','К','Л','М','Н','О','П','Р','С','Т','У','Ф','Ц','Ч','Ш','Щ','Ъ','Ы','Ь','Э','Ю','Я'];
@@ -25,9 +26,12 @@ export function Game({mode, dailyId}: {mode: GameMode, dailyId: number}) {
 
   const knownWords: Array<string> = dict.map(x => x.toUpperCase());
   const [answer] = useState<Array<string>>(() => genWords(knownWords, seed));
-  const [guesses, setGuesses] = useState(answer.map(a => words.includes(a)));
+  const [states, setStates] = useState<Array<BoardState>>(answer.map(a =>
+    words.includes(a) ? BoardState.Solved : BoardState.Normal
+  ));
+  const [selected, setSelected] = useState<number | undefined>(undefined);
 
-  const allLetters = new Set(answer.flatMap((x, i) => !guesses[i] ? [...x] : []));
+  const allLetters = new Set(answer.flatMap((x, i) => states[i] !== BoardState.Solved ? [...x] : []));
   const knownLetters = new Set(words.flatMap(x => [...x]));
 
   const keyState = new Map(ALFABET.map(l => [l, knownLetters.has(l) && !allLetters.has(l) ? KeyState.Absent : KeyState.Unknown]));
@@ -42,9 +46,9 @@ export function Game({mode, dailyId}: {mode: GameMode, dailyId: number}) {
         addWord(input);
         const guess = answer.indexOf(input);
         if (guess !== -1) {
-          let ng = [...guesses];
-          ng[guess] = true;
-          setGuesses(ng);
+          let ns = [...states];
+          ns[guess] = BoardState.Solved;
+          setStates(ns);
         }
       }
       setInput("");
@@ -57,10 +61,25 @@ export function Game({mode, dailyId}: {mode: GameMode, dailyId: number}) {
     }
   }
 
+  function onWordSelected(word: string) {
+    let ns = [...states];
+    if (selected) {
+      ns[selected] = BoardState.Normal;
+    }
+    const idx = answer.indexOf(word);
+    if (idx != -1 && ns[idx] == BoardState.Normal) {
+      ns[idx] = BoardState.Selected;
+      setSelected(idx);
+    } else {
+      setSelected(undefined);
+    }
+    setStates(ns);
+  }
+
   return (
     <div className='game'>
-      <Header moves={words.length} boards={guesses} title={'Ежедневное 32rdle #' + dailyId}/>
-      <Boards input={input} words={answer}/>
+      <Header moves={words.length} boards={states} title={'Ежедневное 32rdle #' + dailyId}/>
+      <Boards input={input} words={answer} states={states} onWordSelected={onWordSelected}/>
       <Keyboard onLetter={onButton} onBackspace={onBackspace} onEnter={onEnter} keyState={keyState} />
     </div>
   );

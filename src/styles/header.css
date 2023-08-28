@@ -76,6 +76,11 @@
   color: black;
 }
 
+.guess-indicator-button.current {
+  background-color: white;
+  color: black;
+}
+
 :root {
   --green: #12bc00;
   --red: #fb3636;
