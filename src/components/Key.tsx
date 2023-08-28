@@ -8,7 +8,9 @@ export function Key(letter: string, handler: (l: string) => void, state: KeyStat
   }
 
   const cn = clsx('keyboard-key', {
-    'absent' : state === KeyState.Absent
+    'absent' : state === KeyState.Absent,
+    'wrong-position' : state === KeyState.WrongPosition,
+    'guess' : state === KeyState.Guess
   });
 
   return <button type='button' className={cn} key={'key-' + letter} onClick={handleClick}>{letter}</button>;

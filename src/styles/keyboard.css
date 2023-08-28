@@ -49,6 +49,16 @@
   filter: contrast(0.5) brightness(0.5);
 }
 
+.keyboard-key.guess {
+  background-color: var(--key-guess);
+}
+
+.keyboard-key.wrong-position {
+  background-color: var(--key-wrong-position);
+}
+
 :root {
   --button-def: #5c5c70;
+  --key-guess: #48d088;
+  --key-wrong-position: #eabf3e;
 }

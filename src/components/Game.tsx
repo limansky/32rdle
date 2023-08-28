@@ -5,15 +5,16 @@ import { Keyboard } from './Keyboard';
 import dict from '../data/dict.json';
 import { useWordsStore } from '../app/wordsStore';
 import { Header } from './header/Header';
-import { KeyState }  from '../model/KeyState';
-import { genWords, seedForId } from '../utils/words';
+import { KeyState } from '../model/KeyState';
+import { genWords, seedForId, wordStatus } from '../utils/words';
 import { GameMode } from '../model/GameMode';
 import { BoardState } from '../model/BoardState';
+import { LetterState } from '../model/LetterState';
 
 
-const ALFABET = [ 'А','Б','В','Г','Д','Е','Ж','З','И','Й','К','Л','М','Н','О','П','Р','С','Т','У','Ф','Ц','Ч','Ш','Щ','Ъ','Ы','Ь','Э','Ю','Я'];
+const ALFABET = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я'];
 
-export function Game({mode, dailyId}: {mode: GameMode, dailyId: number}) {
+export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
 
   const [input, setInput] = useState("");
   const { words, id, addWord, startDaily } = useWordsStore();
@@ -31,10 +32,26 @@ export function Game({mode, dailyId}: {mode: GameMode, dailyId: number}) {
   ));
   const [selected, setSelected] = useState<number | undefined>(undefined);
 
-  const allLetters = new Set(answer.flatMap((x, i) => states[i] !== BoardState.Solved ? [...x] : []));
   const knownLetters = new Set(words.flatMap(x => [...x]));
 
-  const keyState = new Map(ALFABET.map(l => [l, knownLetters.has(l) && !allLetters.has(l) ? KeyState.Absent : KeyState.Unknown]));
+  let keyState: Map<string, KeyState>;
+
+  if (selected !== undefined) {
+    keyState = new Map(ALFABET.map(l => [l, KeyState.Unknown]));
+    for (let w of words) {
+      const statuses = wordStatus(answer[selected], w);
+      statuses.forEach((s, i) => {
+        const newState = s == LetterState.Guess ? KeyState.Guess : s == LetterState.WrongPosition ? KeyState.WrongPosition : KeyState.Absent;
+        if ((keyState.get(w[i]) ?? KeyState.Unknown) < newState) {
+          keyState.set(w[i], newState);
+        }
+      })
+    }
+
+  } else {
+    const allLetters = new Set(answer.flatMap((x, i) => states[i] !== BoardState.Solved ? [...x] : []));
+    keyState = new Map(ALFABET.map(l => [l, knownLetters.has(l) && !allLetters.has(l) ? KeyState.Absent : KeyState.Unknown]));
+  }
 
   function onButton(s: string) {
     if (input.length < 5) setInput(input + s);
@@ -73,11 +90,11 @@ export function Game({mode, dailyId}: {mode: GameMode, dailyId: number}) {
 
   function onWordSelected(word: string) {
     let ns = [...states];
-    if (selected) {
+    if (selected !== undefined) {
       ns[selected] = BoardState.Normal;
     }
     const idx = answer.indexOf(word);
-    if (idx != -1 && ns[idx] == BoardState.Normal) {
+    if (idx !== -1 && idx !== selected && ns[idx] === BoardState.Normal) {
       ns[idx] = BoardState.Selected;
       setSelected(idx);
     } else {
@@ -88,8 +105,8 @@ export function Game({mode, dailyId}: {mode: GameMode, dailyId: number}) {
 
   return (
     <div className='game'>
-      <Header moves={words.length} boards={states} title={'Ежедневное 32rdle #' + dailyId}/>
-      <Boards input={input} words={answer} states={states} onWordSelected={onWordSelected}/>
+      <Header moves={words.length} boards={states} title={'Ежедневное 32rdle #' + dailyId} />
+      <Boards input={input} words={answer} states={states} onWordSelected={onWordSelected} />
       <Keyboard onLetter={onButton} onBackspace={onBackspace} onEnter={onEnter} keyState={keyState} />
     </div>
   );
