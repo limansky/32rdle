@@ -24,11 +24,11 @@ function numberText(n: number) {
 
 const copyResult = 'Скопировать результат';
 
-export function ResultsShare({title, guesses}: {title: string, guesses: Array<number>}) {
+export function ResultsShare({title, guesses, moves}: {title: string, guesses: Array<number>, moves: string}) {
 
   const [buttonText, setButtonText] = useState(copyResult);
 
-  let text = title + '\n\n';
+  let text = title + '\n' + 'Ходы: ' + moves + '/37\n';
 
   for (let i = 0; i < guesses.length; i++) {
     text += numberText(guesses[i]);
