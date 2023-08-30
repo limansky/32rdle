@@ -10,6 +10,7 @@ import { genWords, seedForId, wordStatus } from '../utils/words';
 import { GameMode } from '../model/GameMode';
 import { BoardState } from '../model/BoardState';
 import { LetterState } from '../model/LetterState';
+import { Results } from './results/Results';
 
 
 const ALFABET = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я'];
@@ -103,11 +104,17 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
     setStates(ns);
   }
 
+  const title = 'Ежедневное 32рдле #' + dailyId;
+  const done = words.length > 37 || states.every(x => x == BoardState.Solved);
+
   return (
     <div className='game'>
-      <Header moves={words.length} boards={states} title={'Ежедневное 32rdle #' + dailyId} />
+      <Header moves={words.length} boards={states} title={title} />
       <Boards input={input} words={answer} states={states} onWordSelected={onWordSelected} />
-      <Keyboard onLetter={onButton} onBackspace={onBackspace} onEnter={onEnter} keyState={keyState} />
+      {!done ?
+        <Keyboard onLetter={onButton} onBackspace={onBackspace} onEnter={onEnter} keyState={keyState} /> :
+        <Results gameTitle={title} answer={answer} words={words} />
+      }
     </div>
   );
 }

@@ -1,0 +1,59 @@
+.results {
+  display: flex;
+  flex-direction: column;
+  max-width: var(--width);
+  width: 100%;
+  padding: 8px;
+}
+
+.results.win {
+  background-color: green;
+}
+
+.results.lost {
+  background-color: red;
+}
+
+.results-title {
+  font-size: 24px;
+  margin: 0;
+}
+
+.results-subtitle {
+  margin: 0;
+}
+
+.result-details {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+}
+
+.results-share {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--share-bg);
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.answer-board {
+  display: grid;
+  flex: 1 1;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.answer {
+  border: none;
+  background-color: initial;
+  color: white;
+}
+
+.share-text {
+  font-size: 12px;
+  margin: 0;
+}
+
+:root {
+  --share-bg: #2e2e38;
+}
