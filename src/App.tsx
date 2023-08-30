@@ -1,6 +1,8 @@
+import "../node_modules/sanitize.css/sanitize.css";
+import "./App.css"
+
 import { Redirect, Route, Router, Switch } from "wouter";
 import { Game } from "./components/Game";
-import "./App.css"
 import { GameMode } from "./model/GameMode";
 import { HowToPlay } from "./components/HowToPlay";
 import { MainMenu } from "./components/MainMenu";
