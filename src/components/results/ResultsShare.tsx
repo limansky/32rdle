@@ -40,7 +40,7 @@ export function ResultsShare({title, guesses, moves}: {title: string, guesses: A
   async function handleClick() {
     await navigator.clipboard.writeText(text);
 
-    setButtonText('Скопированно!');
+    setButtonText('Скопировано!');
     setTimeout(() => setButtonText(copyResult), 5000);
   }
 

@@ -11,7 +11,7 @@ import { idForDate } from "./utils/words";
 
 function App() {
 
-  const defMatcher = makeMatcher()
+  const defMatcher = makeMatcher();
 
   const gameMatcher = (pattern: string, path: string): Match => {
     const [m, k] = defMatcher(pattern, path);
