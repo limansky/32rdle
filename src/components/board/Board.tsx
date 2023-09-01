@@ -2,7 +2,6 @@ import { Letter } from "./Letter";
 import { InputLetter } from "./InputLetter";
 import clsx from "clsx";
 import { wordStatus } from "../../utils/words";
-import { useWordsStore } from "../../app/wordsStore";
 import { BoardState } from "../../model/BoardState";
 
 import "~/styles/boards.css";
@@ -10,12 +9,13 @@ import { LetterState } from "../../model/LetterState";
 
 interface Props {
   word: string,
+  words: Array<string>,
   input: string,
   state: BoardState,
   handleClick?: (word: string) => void
 }
 
-export const Board = ({word, input, state, handleClick}: Props) => {
+export const Board = ({word, words, input, state, handleClick}: Props) => {
 
   function letters(guess: string, answer: string, gs: boolean[]): [Array<JSX.Element>, Array<boolean>] {
     const r = Array<JSX.Element>();
@@ -47,7 +47,6 @@ export const Board = ({word, input, state, handleClick}: Props) => {
   }
 
   const opened: Array<Array<JSX.Element>> = [];
-  const { words } = useWordsStore();
 
   let ng = Array(5).fill(false);
   for (let i = 0; i < words.length; i++) {

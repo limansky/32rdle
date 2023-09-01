@@ -110,7 +110,7 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
   return (
     <div className='game'>
       <Header moves={words.length} boards={states} title={title} />
-      <Boards input={input} words={answer} states={states} onWordSelected={onWordSelected} />
+      <Boards input={input} answer={answer} words={words} states={states} onWordSelected={onWordSelected} />
       {!done ?
         <Keyboard onLetter={onButton} onBackspace={onBackspace} onEnter={onEnter} keyState={keyState} /> :
         <Results gameTitle={title} answer={answer} words={words} />
