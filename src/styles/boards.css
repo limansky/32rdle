@@ -58,6 +58,8 @@
   margin: 1px;
   align-items: center;
   display: flex;
+  position: sticky;
+  bottom: 0;
   justify-content: center;
   height: 27px;
   background-color: var(--input-letter);
