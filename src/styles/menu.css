@@ -20,3 +20,12 @@ a.menu-link {
   margin: 20px;
   max-width: var(--width);
 }
+
+.archive-id-input {
+  border: solid 1px white;
+  background-color: initial;
+  color: white;
+  font-size: 24px;
+  border-radius: 4px;
+  width: 100px;
+}

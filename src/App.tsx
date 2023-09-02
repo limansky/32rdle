@@ -5,7 +5,7 @@ import { Redirect, Route, Router, Switch } from "wouter";
 import { Game } from "./components/Game";
 import { GameMode } from "./model/GameMode";
 import { HowToPlay } from "./components/HowToPlay";
-import { MainMenu } from "./components/MainMenu";
+import { MainMenu } from "./components/menu/MainMenu";
 import makeMatcher, { Match } from "wouter/matcher";
 import { idForDate } from "./utils/words";
 
