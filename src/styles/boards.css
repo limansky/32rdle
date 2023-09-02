@@ -28,7 +28,7 @@
 
 .letter {
   margin: 1px;
-  height: 27px;
+  height: 17px;
   align-items: center;
   display: flex;
   justify-content: center;
@@ -55,15 +55,31 @@
 }
 
 .input-letter {
-  margin: 1px;
-  align-items: center;
-  display: flex;
   position: sticky;
   bottom: 0;
-  justify-content: center;
-  height: 27px;
   background-color: var(--input-letter);
   color: white;
+}
+
+@media screen and (min-width: 400px) {
+  .letter {
+    height: 20px;
+    font-size: 18px;
+  }
+}
+
+@media screen and (min-width: 500px) {
+  .letter {
+    height: 25px;
+    font-size: 23px;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .letter {
+    height: 27px;
+    font-size: 25px;
+  }
 }
 
 :root {
