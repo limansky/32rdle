@@ -23,6 +23,7 @@ export const Board = ({word, words, input, state, inputState, handleClick}: Prop
 
     guess.forEach((x, i) => {
       const [l, s] = x;
+      gs[i] ||= s === LetterState.Guess;
       r.push(<Letter letter={l} state={s} key={i}/>);
     });
 
