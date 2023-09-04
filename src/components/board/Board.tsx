@@ -1,28 +1,29 @@
 import { Letter } from "./Letter";
 import { InputLetter } from "./InputLetter";
 import clsx from "clsx";
-import { wordStatus } from "../../utils/words";
 import { BoardState } from "../../model/BoardState";
 
 import "~/styles/boards.css";
 import { LetterState } from "../../model/LetterState";
+import { InputState } from "../../model/InputState";
 
 interface Props {
   word: string,
-  words: Array<string>,
+  words: Array<Array<[string, LetterState]>>,
   input: string,
   state: BoardState,
+  inputState: InputState,
   handleClick?: (word: string) => void
 }
 
-export const Board = ({word, words, input, state, handleClick}: Props) => {
+export const Board = ({word, words, input, state, inputState, handleClick}: Props) => {
 
-  function letters(guess: string, answer: string, gs: boolean[]): [Array<JSX.Element>, Array<boolean>] {
+  function letters(guess: Array<[string, LetterState]>, gs: boolean[]): [Array<JSX.Element>, Array<boolean>] {
     const r = Array<JSX.Element>();
 
-    wordStatus(answer, guess).forEach((s, i) => {
-      gs[i] ||= s == LetterState.Guess;
-      r.push(<Letter letter={guess[i]} state={s} key={i}/>);
+    guess.forEach((x, i) => {
+      const [l, s] = x;
+      r.push(<Letter letter={l} state={s} key={i}/>);
     });
 
     return [r, gs];
@@ -32,11 +33,11 @@ export const Board = ({word, words, input, state, handleClick}: Props) => {
     let result = Array<JSX.Element>();
 
     for (let i = 0; i < input.length; i++) {
-      result.push(InputLetter(input[i], g[i] ? word[i] : ''));
+      result.push(<InputLetter letter={input[i]} preview={g[i] ? word[i] : ''} state={inputState} />);
     }
 
     for (let i = input.length; i < 5; i++) {
-      result.push(InputLetter("", g[i] ? word[i] : ''));
+      result.push(<InputLetter preview={g[i] ? word[i] : ''} state={inputState} />);
     }
     return result;
   }
@@ -50,10 +51,9 @@ export const Board = ({word, words, input, state, handleClick}: Props) => {
 
   let ng = Array(5).fill(false);
   for (let i = 0; i < words.length; i++) {
-    let [l, g] = letters(words[i], word, ng);
+    let [l, g] = letters(words[i], ng);
     ng = g;
     opened.push(l);
-    if (words[i] == word) break;
   }
 
 

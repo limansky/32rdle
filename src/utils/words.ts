@@ -27,6 +27,21 @@ export function wordStatus(word: string, guess: string): Array<LetterState> {
   return result;
 }
 
+export function wordStatuses(answer: string[], words: string[]): Array<Array<Array<[string, LetterState]>>> {
+  const result = [];
+
+  for (let a of answer) {
+    const as: Array<Array<[string, LetterState]>> = [];
+    for (const w of words) {
+      const statuses = wordStatus(a, w);
+      as.push(statuses.map((s, i) => [w[i], s]));
+    }
+    result.push(as);
+  }
+
+  return result;
+}
+
 export function genWords(ws: string[], seed: number): string[] {
   const random = new Random(MersenneTwister19937.seed(seed));
   var ids: number[] = [];

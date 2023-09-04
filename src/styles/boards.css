@@ -61,6 +61,14 @@
   color: white;
 }
 
+.letter-itself.invalid {
+  color: var(--input-invalid);
+}
+
+.letter-itself.unmatch {
+  color: var(--input-unmatch);
+}
+
 @media screen and (min-width: 400px) {
   .letter {
     height: 20px;
@@ -88,4 +96,6 @@
   --letter-wrong-possition: #eabf3e;
   --input-letter: #2e2e38;
   --preview-color: #8f8fa3;
+  --input-invalid: #f23636;
+  --input-unmatch: #eabf3e;
 }

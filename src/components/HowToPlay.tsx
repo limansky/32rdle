@@ -1,9 +1,13 @@
 import { BoardState } from '../model/BoardState';
+import { wordStatuses } from '../utils/words';
 import { Boards } from './board/Boards';
 import { SimpleHeader } from './header/SimpleHeader';
 import '~/styles/howtoplay.css';
 
 export function HowToPlay() {
+  const answer = ["СОСЕД", "ЛОЖКА", "ЧЕПЕЦ", "БЛЮДО"];
+  const words = ['БИЗОН', 'ОСЕНЬ', 'ДОСКА'];
+  const statuses = wordStatuses(answer, words)
   return <>
     <SimpleHeader title="Правила игры" />
     <div className="how-to-play">
@@ -16,14 +20,15 @@ export function HowToPlay() {
       </p>
       <div>
          <Boards
-           answer={["сосед", "ложка", "чепец", "блюдо"]}
-           words={['бизон', 'осень', 'доска']}
+           answer={answer}
+           words={statuses}
            states={[BoardState.Normal, BoardState.Normal, BoardState.Normal, BoardState.Normal]}
-           input=""/>
+           input=""
+           inputStates={[]}/>
       </div>
       <p>
         Зеленым цветом показываются те буквы, которые есть в загаданном слове и стоят на своём месте.
-        Желтым показываются буквы которые также есть в загаданном слове, но находятся в другой месте.
+        Желтым показываются буквы, которые также есть в загаданном слове, но находятся в другой месте.
       </p>
     </div>
   </>;
