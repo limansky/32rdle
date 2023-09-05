@@ -57,7 +57,7 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
   }
 
   const title = 'Ежедневное 32рдле #' + dailyId;
-  const done = words.length > 37 || states.every(x => x == BoardState.Solved);
+  const done = words.length >= 37 || states.every(x => x == BoardState.Solved);
   const is = inputStates.map(states => states.length > 0 ? states[states.length - 1] : InputState.Match);
 
 
