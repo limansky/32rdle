@@ -1,3 +1,4 @@
+import { useSettingsStore } from "../app/settingsStore";
 import { KeyState } from "../model/KeyState";
 import { Key } from "./Key";
 import "~/styles/keyboard.css";
@@ -9,18 +10,21 @@ export function Keyboard({ onLetter, onBackspace, onEnter, keyState }: {
   onEnter: () => void,
 }
 ) {
+  const { enterOnTheRight } = useSettingsStore();
 
   const layout = [
     ['Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ'],
     ['Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э'],
-    ['bksp', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', 'enter']
+    enterOnTheRight ?
+      ['bksp', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', 'enter'] :
+      ['enter', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', 'bksp']
   ];
 
   function createKey(s: string) {
     const state = keyState.get(s) ?? KeyState.Unknown;
     switch (s) {
-      case 'bksp': return Key('⌫', onBackspace, state);
-      case 'enter': return Key('⏎', onEnter, state);
+      case 'bksp': return Key('⌫', onBackspace, KeyState.Special);
+      case 'enter': return Key('⏎', onEnter, KeyState.Special);
       default: return Key(s, onLetter, state);
     }
   }

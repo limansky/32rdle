@@ -12,7 +12,7 @@ import { BoardState } from '../model/BoardState';
 import { LetterState } from '../model/LetterState';
 import { Results } from './results/Results';
 import { InputState } from '../model/InputState';
-
+import { useSettingsStore } from '../app/settingsStore';
 
 const ALPHABET = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я'];
 
@@ -53,11 +53,13 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
     }
   } else {
     const allLetters = new Set(answer.flatMap((x, i) => states[i] !== BoardState.Solved ? [...x] : []));
-    keyState = new Map(ALPHABET.map(l => [l, knownLetters.has(l) && !allLetters.has(l) ? KeyState.Absent : KeyState.Unknown]));
+    keyState = new Map(ALPHABET.map(l => [l, knownLetters.has(l) ? (allLetters.has(l) ? KeyState.Known : KeyState.Absent) : KeyState.Unknown]));
   }
 
+  const { tillTheEnd } = useSettingsStore();
+
   const title = 'Ежедневное 32рдле #' + dailyId;
-  const done = words.length >= 37 || states.every(x => x == BoardState.Solved);
+  const done = (!tillTheEnd && words.length >= 37) || states.every(x => x == BoardState.Solved);
   const is = inputStates.map(states => states.length > 0 ? states[states.length - 1] : InputState.Match);
 
 
@@ -85,7 +87,7 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
           if (lastState === undefined || lastState === InputState.Match) {
             let newState = InputState.Match;
             for (let ws of wordsWithStatuses[bid]) {
-              const [l, st] =  ws[input.length];
+              const [l, st] = ws[input.length];
               if (l === s) {
                 if (st !== LetterState.Guess) newState = InputState.Unmatch;
                 break;
@@ -100,7 +102,7 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
   }
 
   function onEnter() {
-    if (input.length < 5) setInput(""); else {
+    if (input.length == 5) {
       if (knownWords.includes(input)) {
         addWord(input);
         const guess = answer.indexOf(input);
@@ -120,9 +122,10 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
           setStates(ns);
         }
       }
-      setInput("");
-      setInputStates(Array(32).fill([]));
     }
+
+    setInput("");
+    setInputStates(Array(32).fill([]));
   }
 
   function onBackspace() {

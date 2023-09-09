@@ -57,8 +57,18 @@
   background-color: var(--key-wrong-position);
 }
 
+.keyboard-key.known {
+  background-color: var(--key-known);
+}
+
+.keyboard-key.special {
+  background-color: var(--key-special);
+}
+
 :root {
   --button-def: #5c5c70;
   --key-guess: #48d088;
   --key-wrong-position: #eabf3e;
+  --key-known: #9c9cb0;
+  --key-special: #5c8cec;
 }

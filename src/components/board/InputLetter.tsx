@@ -3,7 +3,6 @@ import { InputState } from "../../model/InputState";
 import "~/styles/boards.css";
 
 export function InputLetter({ letter, preview, state }: { letter?: string, preview: string, state: InputState }) {
-  console.log("letter = " + letter + " ==> " + (letter !== ''))
   const l = letter && letter !== '' ? <span className={clsx(
     'letter-itself', {
     'unmatch': state === InputState.Unmatch,

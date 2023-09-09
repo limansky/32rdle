@@ -6,6 +6,7 @@ import { BoardState } from "../../model/BoardState";
 import "~/styles/boards.css";
 import { LetterState } from "../../model/LetterState";
 import { InputState } from "../../model/InputState";
+import { useSettingsStore } from "../../app/settingsStore";
 
 interface Props {
   word: string,
@@ -57,11 +58,13 @@ export const Board = ({word, words, input, state, inputState, handleClick}: Prop
     opened.push(l);
   }
 
+  const { hideSolved } = useSettingsStore();
 
   const inputLetters: Array<JSX.Element> = state != BoardState.Solved ? inputArea(input, ng) : [];
   return <div className={clsx('board', {
     'selected': state === BoardState.Selected,
-    'solved': state === BoardState.Solved
+    'solved': state === BoardState.Solved,
+    'hidden' : hideSolved && state === BoardState.Solved
   })} onClick={onClick}>
     {...opened}
     {...inputLetters}
