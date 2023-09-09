@@ -18,7 +18,7 @@ export const useWordsStore = create<Words>()(
     id: 0,
     seed: 0,
     words: [],
-    addWord: (word: string) => set((state) => ({ ...state, words: [...state.words, word] })),
+    addWord: (word: string) => set((state) => ({ words: [...state.words, word] })),
     startDaily: (i: number) => set({ mode: GameMode.Daily, id: i, seed: 0, words: [] }),
     startRandom: (s: number) => set({ mode: GameMode.Random, id: 0, seed: s, words: [] })
   }), { name: "32rdle-state" }
