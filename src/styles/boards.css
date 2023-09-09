@@ -10,6 +10,16 @@
   margin: auto;
 }
 
+.boards.col-8 {
+  grid-template-columns: repeat(8, 1fr);
+  max-width: calc(var(--width) * 2);
+}
+
+.boards.col-16 {
+  grid-template-columns: repeat(16, 1fr);
+  max-width: calc(var(--width) * 4);
+}
+
 .board {
   display: grid;
   grid-template-columns: repeat(5, 1fr);

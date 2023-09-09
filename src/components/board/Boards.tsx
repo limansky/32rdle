@@ -1,3 +1,5 @@
+import clsx from "clsx";
+import { useSettingsStore } from "../../app/settingsStore";
 import { BoardState } from "../../model/BoardState";
 import { InputState } from "../../model/InputState";
 import { LetterState } from "../../model/LetterState";
@@ -25,7 +27,9 @@ export function Boards({ input, answer, words, states, inputStates, onWordSelect
     />
   );
 
-  return <div className='boards'>
+  const { boardsPerRow } = useSettingsStore();
+
+  return <div className={clsx('boards', 'col-' + boardsPerRow)}>
     {...boards}
   </div>;
 }

@@ -1,6 +1,7 @@
 import { Modal } from "./Modal";
 import { Checkbox } from "./Checkbox";
 import { useSettingsStore } from "../../app/settingsStore";
+import { WidthSelector } from "./WidthSelector";
 
 export function SettingsDialog({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
 
@@ -25,6 +26,8 @@ export function SettingsDialog({ isOpen, onClose }: { isOpen: boolean, onClose: 
         value={settings.enterOnTheRight}
         onChange={(x) => settings.setEnterOnTheRight(x)}
       />
+
+      <WidthSelector value={settings.boardsPerRow} onChange={(x) => settings.setBordsPerRow(x)} />
     </div>
   </Modal>;
 }
