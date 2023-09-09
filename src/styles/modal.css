@@ -1,0 +1,43 @@
+.modal {
+  border: solid white 1px;
+  border-radius: 4px;
+  background-color: black;
+  color: white;
+}
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.setting {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.checkbox {
+  width: 16px;
+  margin: 0;
+}
+
+.label {
+  flex-grow: 1;
+  user-select: none;
+  text-align: left;
+}
+
+.setting-title {
+  font-size: 16px;
+}
+
+.setting-subtitle {
+  font-size: 12px;
+}
+
+p {
+  margin: 0;
+}
+
+
