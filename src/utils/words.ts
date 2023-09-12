@@ -35,6 +35,7 @@ export function wordStatuses(answer: string[], words: string[]): Array<Array<Arr
     for (const w of words) {
       const statuses = wordStatus(a, w);
       as.push(statuses.map((s, i) => [w[i], s]));
+      if (w === a) break;
     }
     result.push(as);
   }
