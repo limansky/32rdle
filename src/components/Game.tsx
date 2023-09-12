@@ -88,8 +88,8 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
             let newState = InputState.Match;
             for (let ws of wordsWithStatuses[bid]) {
               const [l, st] = ws[input.length];
-              if (l === s) {
-                if (st !== LetterState.Guess) newState = InputState.Unmatch;
+              if ((l === s) !== (st === LetterState.Guess)) {
+                newState = InputState.Unmatch;
                 break;
               }
             }
