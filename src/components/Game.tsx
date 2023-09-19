@@ -6,13 +6,14 @@ import dict from '../data/dict.json';
 import { useWordsStore } from '../app/wordsStore';
 import { Header } from './header/Header';
 import { KeyState } from '../model/KeyState';
-import { genWords, seedForId, wordStatus, wordStatuses } from '../utils/words';
+import { calcInputStates, wordStatuses } from '../utils/words';
 import { GameMode } from '../model/GameMode';
 import { BoardState } from '../model/BoardState';
 import { LetterState } from '../model/LetterState';
 import { Results } from './results/Results';
 import { InputState } from '../model/InputState';
 import { useSettingsStore } from '../app/settingsStore';
+import { genWords, seedForId } from '../utils/dictUtils';
 
 const ALPHABET = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я'];
 
@@ -42,12 +43,12 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
 
   if (selected !== undefined) {
     keyState = new Map(ALPHABET.map(l => [l, KeyState.Unknown]));
-    for (let w of words) {
-      const statuses = wordStatus(answer[selected], w);
-      statuses.forEach((s, i) => {
+    const statuses = wordsWithStatuses[selected];
+    for (let ws of statuses) {
+      ws.forEach(([c, s]) => {
         const newState = s == LetterState.Guess ? KeyState.Guess : s == LetterState.WrongPosition ? KeyState.WrongPosition : KeyState.Absent;
-        if ((keyState.get(w[i]) ?? KeyState.Unknown) < newState) {
-          keyState.set(w[i], newState);
+        if ((keyState.get(c) ?? KeyState.Unknown) < newState) {
+          keyState.set(c, newState);
         }
       })
     }
@@ -62,12 +63,6 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
   const done = (!tillTheEnd && words.length >= 37) || states.every(x => x == BoardState.Solved);
   const is = inputStates.map(states => states.length > 0 ? states[states.length - 1] : InputState.Match);
 
-
-  function addInputState(s: InputState) {
-    const nss = inputStates.map(is => [...is, s]);
-    setInputStates(nss);
-  }
-
   function removeInputState() {
     if (inputStates[0].length > 0) {
       const nss = inputStates.map(is => is.slice(0, -1));
@@ -79,25 +74,7 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
     if (input.length < 5) {
       const newInput = input + s;
       setInput(newInput);
-      if (newInput.length == 5 && !knownWords.includes(newInput)) {
-        addInputState(InputState.Invalid);
-      } else {
-        const newsStates = inputStates.map((bis, bid) => {
-          const [lastState] = bis.slice(-1);
-          if (lastState === undefined || lastState === InputState.Match) {
-            let newState = InputState.Match;
-            for (let ws of wordsWithStatuses[bid]) {
-              const [l, st] = ws[input.length];
-              if ((l === s) !== (st === LetterState.Guess)) {
-                newState = InputState.Unmatch;
-                break;
-              }
-            }
-            return [...bis, newState];
-          } else return [...bis, lastState];
-        });
-        setInputStates(newsStates);
-      }
+      setInputStates(calcInputStates(knownWords, inputStates, wordsWithStatuses, newInput));
     }
   }
 

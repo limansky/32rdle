@@ -1,7 +1,5 @@
+import { InputState } from "../model/InputState";
 import { LetterState } from "../model/LetterState";
-import { MersenneTwister19937, Random } from 'random-js';
-
-const BEGIN_OF_TIME = new Date(2023, 7, 15);
 
 export function wordStatus(word: string, guess: string): Array<LetterState> {
   const len = guess.length;
@@ -43,22 +41,30 @@ export function wordStatuses(answer: string[], words: string[]): Array<Array<Arr
   return result;
 }
 
-export function genWords(ws: string[], seed: number): string[] {
-  const random = new Random(MersenneTwister19937.seed(seed));
-  var ids: number[] = [];
-  while (ids.length < 32) {
-    var next = random.integer(0, ws.length);
-    if (!ids.includes(next)) ids.push(next);
+export function calcInputStates(
+  dict: string[],
+  initial: Array<Array<InputState>>,
+  wordsWithStatuses: Array<Array<Array<[string, LetterState]>>>,
+  newInput: string
+): Array<Array<InputState>> {
+  const s = newInput[newInput.length - 1];
+  if (newInput.length == 5 && !dict.includes(newInput)) {
+    return initial.map(is => [...is, InputState.Invalid]);
+  } else {
+    const newsStates = initial.map((bis, bid) => {
+      const [lastState] = bis.slice(-1);
+      if (lastState === undefined || lastState === InputState.Match) {
+        let newState = InputState.Match;
+        for (let ws of wordsWithStatuses[bid]) {
+          const [l, st] = ws[newInput.length - 1];
+          if ((l === s) !== (st === LetterState.Guess)) {
+            newState = InputState.Unmatch;
+            break;
+          }
+        }
+        return [...bis, newState];
+      } else return [...bis, lastState];
+    });
+    return newsStates;
   }
-
-  return ids.map(x => ws[x]);
-}
-
-export function idForDate(d: Date): number {
-  d.setHours(0, 0, 0, 0);
-  return (d.getTime() - BEGIN_OF_TIME.getTime()) / 24 / 3600 / 1000 + 1;
-}
-
-export function seedForId(id: number): number {
-  return BEGIN_OF_TIME.getTime() / 1000 + (id - 1) * 24 * 3600;
 }

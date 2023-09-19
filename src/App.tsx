@@ -7,7 +7,7 @@ import { GameMode } from "./model/GameMode";
 import { HowToPlay } from "./components/HowToPlay";
 import { MainMenu } from "./components/menu/MainMenu";
 import makeMatcher, { Match } from "wouter/matcher";
-import { idForDate } from "./utils/words";
+import { idForDate } from "./utils/dictUtils";
 
 function App() {
 

@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { idForDate } from "../../utils/words";
+import { idForDate } from "../../utils/dictUtils";
 import { useState } from "react";
 import "~/styles/menu.css";
 
