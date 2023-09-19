@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '~/styles/game.css'
 import { Boards } from './board/Boards';
 import { Keyboard } from './Keyboard';
@@ -24,9 +24,11 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
 
   const seed = seedForId(dailyId);
 
-  if (mode !== GameMode.Daily || id !== dailyId) {
-    startDaily(dailyId);
-  }
+  useEffect(() => {
+    if (mode !== GameMode.Daily || id !== dailyId) {
+      startDaily(dailyId);
+    }
+  });
 
   const knownWords: Array<string> = dict.map(x => x.toUpperCase());
   const [answer] = useState<Array<string>>(() => genWords(knownWords, seed));
