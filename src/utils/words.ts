@@ -1,3 +1,4 @@
+import { BoardState } from "../model/BoardState";
 import { InputState } from "../model/InputState";
 import { LetterState } from "../model/LetterState";
 
@@ -45,6 +46,8 @@ export function calcInputStates(
   dict: string[],
   initial: Array<Array<InputState>>,
   wordsWithStatuses: Array<Array<Array<[string, LetterState]>>>,
+  states: BoardState[],
+  missings: Set<string>[],
   newInput: string
 ): Array<Array<InputState>> {
   const s = newInput[newInput.length - 1];
@@ -52,18 +55,25 @@ export function calcInputStates(
     return initial.map(is => [...is, InputState.Invalid]);
   } else {
     const newsStates = initial.map((bis, bid) => {
-      const [lastState] = bis.slice(-1);
-      if (lastState === undefined || lastState === InputState.Match) {
-        let newState = InputState.Match;
-        for (let ws of wordsWithStatuses[bid]) {
-          const [l, st] = ws[newInput.length - 1];
-          if ((l === s) !== (st === LetterState.Guess)) {
+      if (states[bid] !== BoardState.Solved) {
+        const [lastState] = bis.slice(-1);
+        if (lastState === undefined || lastState === InputState.Match) {
+          const letter = newInput[newInput.length - 1];
+          let newState = InputState.Match;
+          if (missings[bid].has(letter)) {
             newState = InputState.Unmatch;
-            break;
+          } else {
+            for (let ws of wordsWithStatuses[bid]) {
+              const [l, st] = ws[newInput.length - 1];
+              if ((l === s) !== (st === LetterState.Guess)) {
+                newState = InputState.Unmatch;
+                break;
+              }
+            }
           }
-        }
-        return [...bis, newState];
-      } else return [...bis, lastState];
+          return [...bis, newState];
+        } else return [...bis, lastState];
+      } else return [];
     });
     return newsStates;
   }

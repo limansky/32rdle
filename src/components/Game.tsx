@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import '~/styles/game.css'
 import { Boards } from './board/Boards';
 import { Keyboard } from './Keyboard';
@@ -14,8 +14,7 @@ import { Results } from './results/Results';
 import { InputState } from '../model/InputState';
 import { useSettingsStore } from '../app/settingsStore';
 import { genWords, seedForId } from '../utils/dictUtils';
-
-const ALPHABET = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я'];
+import { globalKeyState, wordKeyState } from '../utils/keyUtils';
 
 export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
 
@@ -38,26 +37,17 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
   const [selected, setSelected] = useState<number | undefined>(undefined);
   const [inputStates, setInputStates] = useState<Array<Array<InputState>>>(Array(32).fill([]));
 
-  const knownLetters = new Set(words.flatMap(x => [...x]));
-  const wordsWithStatuses: Array<Array<Array<[string, LetterState]>>> = wordStatuses(answer, words);
-
-  let keyState: Map<string, KeyState>;
-
-  if (selected !== undefined) {
-    keyState = new Map(ALPHABET.map(l => [l, KeyState.Unknown]));
-    const statuses = wordsWithStatuses[selected];
-    for (let ws of statuses) {
-      ws.forEach(([c, s]) => {
-        const newState = s == LetterState.Guess ? KeyState.Guess : s == LetterState.WrongPosition ? KeyState.WrongPosition : KeyState.Absent;
-        if ((keyState.get(c) ?? KeyState.Unknown) < newState) {
-          keyState.set(c, newState);
-        }
-      })
-    }
-  } else {
-    const allLetters = new Set(answer.flatMap((x, i) => states[i] !== BoardState.Solved ? [...x] : []));
-    keyState = new Map(ALPHABET.map(l => [l, knownLetters.has(l) ? (allLetters.has(l) ? KeyState.Known : KeyState.Absent) : KeyState.Unknown]));
-  }
+  const wordsWithStatuses: Array<Array<Array<[string, LetterState]>>> = useMemo(() => wordStatuses(answer, words), [answer, words]);
+  const missings: Array<Set<string>> = useMemo(() => {
+    return wordsWithStatuses.map(wss =>
+      new Set<string>(wss.flatMap(ws =>
+        ws.filter(([_, s]) => s === LetterState.Miss).map(([l, _]) => l)
+      ))
+    )
+  }, [wordsWithStatuses]);
+  const keyState: Map<string, KeyState> = selected !== undefined ?
+    wordKeyState(wordsWithStatuses[selected]) :
+    globalKeyState(answer, words, states);
 
   const { tillTheEnd } = useSettingsStore();
 
@@ -76,7 +66,7 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
     if (input.length < 5) {
       const newInput = input + s;
       setInput(newInput);
-      setInputStates(calcInputStates(knownWords, inputStates, wordsWithStatuses, newInput));
+      setInputStates(calcInputStates(knownWords, inputStates, wordsWithStatuses, states, missings, newInput));
     }
   }
 
