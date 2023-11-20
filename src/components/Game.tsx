@@ -6,7 +6,7 @@ import dict from '../data/dict.json';
 import { useWordsStore } from '../app/wordsStore';
 import { Header } from './header/Header';
 import { KeyState } from '../model/KeyState';
-import { calcInputStates, wordStatuses } from '../utils/words';
+import { calcInputStates, letterStat, wordStatuses } from '../utils/words';
 import { GameMode } from '../model/GameMode';
 import { BoardState } from '../model/BoardState';
 import { LetterState } from '../model/LetterState';
@@ -38,13 +38,7 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
   const [inputStates, setInputStates] = useState<Array<Array<InputState>>>(Array(32).fill([]));
 
   const wordsWithStatuses: Array<Array<Array<[string, LetterState]>>> = useMemo(() => wordStatuses(answer, words), [answer, words]);
-  const missings: Array<Set<string>> = useMemo(() => {
-    return wordsWithStatuses.map(wss =>
-      new Set<string>(wss.flatMap(ws =>
-        ws.filter(([_, s]) => s === LetterState.Miss).map(([l, _]) => l)
-      ))
-    )
-  }, [wordsWithStatuses]);
+  const letterStats: Array<Map<string, number>> = useMemo(() => wordsWithStatuses.map(wss => letterStat(wss)), [wordsWithStatuses]);
   const keyState: Map<string, KeyState> = selected !== undefined ?
     wordKeyState(wordsWithStatuses[selected]) :
     globalKeyState(answer, words, states);
@@ -56,17 +50,14 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
   const is = inputStates.map(states => states.length > 0 ? states[states.length - 1] : InputState.Match);
 
   function removeInputState() {
-    if (inputStates[0].length > 0) {
-      const nss = inputStates.map(is => is.slice(0, -1));
-      setInputStates(nss);
-    }
+    setInputStates(inputStates => inputStates.map(is => is.slice(0, -1)));
   }
 
   function onButton(s: string) {
     if (input.length < 5) {
       const newInput = input + s;
       setInput(newInput);
-      setInputStates(calcInputStates(knownWords, inputStates, wordsWithStatuses, states, missings, newInput));
+      setInputStates(is => calcInputStates(knownWords, is, wordsWithStatuses, states, letterStats, newInput));
     }
   }
 

@@ -42,12 +42,27 @@ export function wordStatuses(answer: string[], words: string[]): Array<Array<Arr
   return result;
 }
 
+export function letterStat(wordStatus: Array<Array<[string, LetterState]>>): Map<string, number> {
+  let result = new Map<string, number>();
+
+  for (let ws of wordStatus) {
+    let count = new Map<string, number>();
+    ws.forEach(([l, s]) => {
+      const inc = s === LetterState.Miss ? 0 : 1;
+      count.set(l, count.get(l) ?? 0 + inc);
+      result.set(l, Math.max(result.get(l) ?? 0, count.get(l) ?? 0));
+    });
+  }
+
+  return result;
+}
+
 export function calcInputStates(
   dict: string[],
   initial: Array<Array<InputState>>,
   wordsWithStatuses: Array<Array<Array<[string, LetterState]>>>,
   states: BoardState[],
-  missings: Set<string>[],
+  letterStat: Array<Map<string, number>>,
   newInput: string
 ): Array<Array<InputState>> {
   const s = newInput[newInput.length - 1];
@@ -60,7 +75,7 @@ export function calcInputStates(
         if (lastState === undefined || lastState === InputState.Match) {
           const letter = newInput[newInput.length - 1];
           let newState = InputState.Match;
-          if (missings[bid].has(letter)) {
+          if (letterStat[bid].get(letter) === 0) {
             newState = InputState.Unmatch;
           } else {
             for (let ws of wordsWithStatuses[bid]) {
