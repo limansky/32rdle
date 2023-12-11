@@ -4,9 +4,9 @@ const BEGIN_OF_TIME = new Date(2023, 7, 15);
 
 export function genWords(ws: string[], seed: number): string[] {
   const random = new Random(MersenneTwister19937.seed(seed));
-  var ids: number[] = [];
+  const ids: number[] = [];
   while (ids.length < 32) {
-    var next = random.integer(0, ws.length);
+    const next = random.integer(0, ws.length);
     if (!ids.includes(next)) ids.push(next);
   }
 

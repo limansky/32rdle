@@ -17,7 +17,7 @@ function App() {
     const [m, k] = defMatcher(pattern, path);
 
     if (m) {
-      for (let p in k) {
+      for (const p in k) {
         if (p.startsWith('num_') && !/^\d+$/.test(k[p]!)) return [false, null];
       }
       return [true, k];

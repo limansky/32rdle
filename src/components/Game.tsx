@@ -21,13 +21,14 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
   const [input, setInput] = useState("");
   const { words, id, addWord, startDaily } = useWordsStore();
 
-  const seed = seedForId(dailyId);
+  const title = useMemo(() => "Ежедневное 32рдле #" + dailyId, [dailyId]);
+  const seed = useMemo(() => seedForId(dailyId), [dailyId]);
 
   useEffect(() => {
     if (mode !== GameMode.Daily || id !== dailyId) {
       startDaily(dailyId);
     }
-  });
+  }, [id, startDaily, mode, dailyId]);
 
   const knownWords: Array<string> = dict.map(x => x.toUpperCase());
   const [answer] = useState<Array<string>>(() => genWords(knownWords, seed));
@@ -45,7 +46,6 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
 
   const { tillTheEnd } = useSettingsStore();
 
-  const title = 'Ежедневное 32рдле #' + dailyId;
   const done = (!tillTheEnd && words.length >= 37) || states.every(x => x == BoardState.Solved);
   const is = inputStates.map(states => states.length > 0 ? states[states.length - 1] : InputState.Match);
 
@@ -67,7 +67,7 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
         addWord(input);
         const guess = answer.indexOf(input);
         if (guess !== -1) {
-          let ns = [...states];
+          const ns = [...states];
           if (ns[guess] == BoardState.Selected) {
             let next = (guess + 1) % 32;
             while (ns[next] === BoardState.Solved && next != guess) {
@@ -96,7 +96,7 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
   }
 
   function onWordSelected(word: string) {
-    let ns = [...states];
+    const ns = [...states];
     if (selected !== undefined) {
       ns[selected] = BoardState.Normal;
     }

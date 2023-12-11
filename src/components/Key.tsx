@@ -3,7 +3,7 @@ import "~/styles/keyboard.css";
 import { KeyState } from "../model/KeyState";
 
 export function Key(letter: string, handler: (l: string) => void, state: KeyState) {
-  function handleClick(_e: React.MouseEvent<HTMLButtonElement>) {
+  function handleClick() {
     handler(letter);
   }
 

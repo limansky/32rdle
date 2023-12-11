@@ -29,7 +29,7 @@ export function wordStatus(word: string, guess: string): Array<LetterState> {
 export function wordStatuses(answer: string[], words: string[]): Array<Array<Array<[string, LetterState]>>> {
   const result = [];
 
-  for (let a of answer) {
+  for (const a of answer) {
     const as: Array<Array<[string, LetterState]>> = [];
     for (const w of words) {
       const statuses = wordStatus(a, w);
@@ -43,10 +43,10 @@ export function wordStatuses(answer: string[], words: string[]): Array<Array<Arr
 }
 
 export function letterStat(wordStatus: Array<Array<[string, LetterState]>>): Map<string, number> {
-  let result = new Map<string, number>();
+  const result = new Map<string, number>();
 
-  for (let ws of wordStatus) {
-    let count = new Map<string, number>();
+  for (const ws of wordStatus) {
+    const count = new Map<string, number>();
     ws.forEach(([l, s]) => {
       const inc = s === LetterState.Miss ? 0 : 1;
       count.set(l, count.get(l) ?? 0 + inc);
@@ -66,10 +66,10 @@ export function calcInputStates(
   newInput: string
 ): Array<Array<InputState>> {
   const s = newInput[newInput.length - 1];
-  if (newInput.length == 5 && !dict.includes(newInput)) {
+  if (newInput.length === 5 && !dict.includes(newInput)) {
     return initial.map(is => [...is, InputState.Invalid]);
   } else {
-    const newsStates = initial.map((bis, bid) => {
+    return initial.map((bis, bid) => {
       if (states[bid] !== BoardState.Solved) {
         const [lastState] = bis.slice(-1);
         if (lastState === undefined || lastState === InputState.Match) {
@@ -78,7 +78,7 @@ export function calcInputStates(
           if (letterStat[bid].get(letter) === 0) {
             newState = InputState.Unmatch;
           } else {
-            for (let ws of wordsWithStatuses[bid]) {
+            for (const ws of wordsWithStatuses[bid]) {
               const [l, st] = ws[newInput.length - 1];
               if ((l === s) !== (st === LetterState.Guess)) {
                 newState = InputState.Unmatch;
@@ -90,6 +90,5 @@ export function calcInputStates(
         } else return [...bis, lastState];
       } else return [];
     });
-    return newsStates;
   }
 }
