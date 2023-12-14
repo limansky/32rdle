@@ -18,21 +18,21 @@ export function Modal({ children, isOpen, onClose }: Props) {
     setModalOpen(false);
   }
 
-  useEffect(() => { setModalOpen(isOpen)}, [isOpen]);
+  useEffect(() => {
+    setModalOpen(isOpen);
+  }, [isOpen]);
 
   useEffect(() => {
     const ref = modalRef.current;
     if (ref) {
-      if (isModalOpen) {
-        ref.showModal();
-      } else {
-        ref.close();
-      }
+      ref[isModalOpen ? "showModal" : "close"];
     }
   }, [isModalOpen]);
 
-  return <dialog ref={modalRef} className='modal'>
-    {children}
-    <button onClick={handleCloseModal}>Закрыть</button>
-  </dialog>;
+  return (
+    <dialog ref={modalRef} className="modal">
+      {children}
+      <button onClick={handleCloseModal}>Закрыть</button>
+    </dialog>
+  );
 }

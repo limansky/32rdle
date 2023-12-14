@@ -6,7 +6,7 @@ const ALPHABET = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'Й', '�
 
 export function wordKeyState(statuses: Array<Array<[string, LetterState]>>): Map<string, KeyState> {
   const keyState = new Map(ALPHABET.map(l => [l, KeyState.Unknown]));
-  for (let ws of statuses) {
+  for (const ws of statuses) {
     ws.forEach(([c, s]) => {
       const newState = s == LetterState.Guess ? KeyState.Guess : s == LetterState.WrongPosition ? KeyState.WrongPosition : KeyState.Absent;
       if ((keyState.get(c) ?? KeyState.Unknown) < newState) {
