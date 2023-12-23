@@ -25,9 +25,9 @@ export function Modal({ children, isOpen, onClose }: Props) {
   useEffect(() => {
     const ref = modalRef.current;
     if (ref) {
-      ref[isModalOpen ? "showModal" : "close"];
+      if (isModalOpen) ref.showModal(); else ref.close();
     }
-  }, [isModalOpen]);
+  }, [isModalOpen, modalRef]);
 
   return (
     <dialog ref={modalRef} className="modal">
