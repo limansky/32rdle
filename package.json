@@ -12,7 +12,7 @@
     "ci:test": "CI=true vitest"
   },
   "dependencies": {
-    "clsx": "^2.0.0",
+    "clsx": "^2.1.0",
     "random-js": "^2.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -32,7 +32,7 @@
     "typescript": "^5.2.2",
     "vite": "^5.0.0",
     "vite-plugin-eslint": "^1.8.1",
-    "vitest": "^1.0.1"
+    "vitest": "^1.1.0"
   },
   "packageManager": "yarn@4.0.2"
 }
