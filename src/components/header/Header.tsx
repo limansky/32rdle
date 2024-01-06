@@ -7,15 +7,19 @@ import backUrl from '../../img/back.svg';
 import { BoardState } from '../../model/BoardState';
 import { SettingsDialog } from '../settings/SettingsDialog';
 import { useState } from 'react';
+import { Time } from './Time';
+import { useSettingsStore } from '../../app/settingsStore';
 
 type HeaderStats = {
   title: string,
   moves: number,
+  time: number,
   boards: Array<BoardState>
 }
 
-export const Header = ({title, moves, boards}: HeaderStats) => {
+export const Header = ({title, moves, boards, time}: HeaderStats) => {
   const [settingsShown, setSettingsShown] = useState(false);
+  const settings = useSettingsStore();
 
   const solved = boards.reduce((a: number, b: BoardState) => { if (b === BoardState.Solved) return a + 1; else return a; }, 0);
   return <div className="header">
@@ -27,6 +31,11 @@ export const Header = ({title, moves, boards}: HeaderStats) => {
     <div className="row2">
       <BoardsStatistics solved={solved} />
       <span className="filler" />
+      {settings.showTimer && <>
+          <Time time={time} />
+          <span className="filler" />
+        </>
+      }
       <GuessStatistics moves={moves} ahead={5 - moves + solved}/>
     </div>
     <div className="row3">

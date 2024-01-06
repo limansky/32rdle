@@ -27,6 +27,12 @@ export function SettingsDialog({ isOpen, onClose }: { isOpen: boolean, onClose: 
         onChange={(x) => settings.setEnterOnTheRight(x)}
       />
 
+      <Checkbox
+        title="Показывать время"
+        value={settings.showTimer}
+        onChange={(x) => settings.setShowTimer(x)}
+      />
+
       <WidthSelector value={settings.boardsPerRow} onChange={(x) => settings.setBordsPerRow(x)} />
     </div>
   </Modal>;

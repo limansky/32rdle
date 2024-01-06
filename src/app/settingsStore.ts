@@ -10,6 +10,8 @@ interface Settings {
   setEnterOnTheRight: (value: boolean) => void;
   boardsPerRow: number;
   setBordsPerRow: (value: number) => void;
+  showTimer: boolean;
+  setShowTimer: (value: boolean) => void;
 }
 
 export const useSettingsStore = create<Settings>()(
@@ -18,10 +20,12 @@ export const useSettingsStore = create<Settings>()(
     hideSolved: false,
     enterOnTheRight: true,
     boardsPerRow: 4,
+    showTimer: false,
     setTillTheEnd: (value: boolean) => set(() => ({ tillTheEnd: value })),
     setHideSolved: (value: boolean) => set(() => ({ hideSolved: value })),
     setEnterOnTheRight: (value: boolean) => set(() => ({ enterOnTheRight: value })),
-    setBordsPerRow: (value: number) => set(() => ({ boardsPerRow: value }))
+    setBordsPerRow: (value: number) => set(() => ({ boardsPerRow: value })),
+    setShowTimer: (value: boolean) => set(() => ({showTimer: value}))
   }), { name: "32rdle-settings" }
   )
 )

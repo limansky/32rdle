@@ -18,6 +18,36 @@ import { globalKeyState, wordKeyState } from '../utils/keyUtils';
 
 export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
 
+  const [time, setTime] = useState(0);
+  const [isActive, setActive] = useState(true);
+  const [startTime, setStartTime] = useState(Date.now());
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      if (isActive) {
+        setTime(Date.now() - startTime);
+      }
+    }, 1000);
+
+    return () => { clearInterval(id); }
+  })
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      setActive(!document.hidden);
+      if (!document.hidden) {
+        setStartTime(Date.now() - time);
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    }
+
+  }, [time]);
+
   const [input, setInput] = useState("");
   const { words, id, addWord, startDaily } = useWordsStore();
 
@@ -112,7 +142,7 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
 
   return (
     <div className='game'>
-      <Header moves={words.length} boards={states} title={title} />
+      <Header moves={words.length} boards={states} title={title} time={time}/>
       <Boards
         input={input}
         answer={answer}
