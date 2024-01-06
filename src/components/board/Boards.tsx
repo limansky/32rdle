@@ -6,12 +6,13 @@ import { LetterState } from "../../model/LetterState";
 import { Board } from "./Board";
 import "~/styles/boards.css";
 
-export function Boards({ input, answer, words, states, inputStates, onWordSelected }: {
+export function Boards({ input, answer, words, states, inputStates, done, onWordSelected }: {
   input: string,
   answer: string[],
   words: Array<Array<Array<[string, LetterState]>>>,
   states: BoardState[],
   inputStates: InputState[],
+  done: boolean,
   onWordSelected?: (word: string) => void
 }) {
 
@@ -22,6 +23,7 @@ export function Boards({ input, answer, words, states, inputStates, onWordSelect
       input={input}
       state={states[i]}
       inputState={inputStates[i]}
+      done={done}
       key={w}
       handleClick={onWordSelected}
     />
