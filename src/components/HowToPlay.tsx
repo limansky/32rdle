@@ -24,6 +24,7 @@ export function HowToPlay() {
            words={statuses}
            states={[BoardState.Normal, BoardState.Normal, BoardState.Normal, BoardState.Normal]}
            input=""
+           done={false}
            inputStates={[]}/>
       </div>
       <p>

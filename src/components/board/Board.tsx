@@ -15,6 +15,7 @@ interface Props {
   input: string;
   state: BoardState;
   inputState: InputState;
+  done: boolean;
   handleClick?: (word: string) => void;
 }
 
@@ -24,6 +25,7 @@ export const Board = ({
   input,
   state,
   inputState,
+  done,
   handleClick,
 }: Props) => {
   function letters(
@@ -81,7 +83,7 @@ export const Board = ({
     <div
       className={clsx("board", {
         selected: state === BoardState.Selected,
-        solved: state === BoardState.Solved,
+        solved: state === BoardState.Solved && !done,
         hidden: hideSolved && state === BoardState.Solved,
       })}
       onClick={onClick}

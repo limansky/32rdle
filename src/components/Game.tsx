@@ -76,7 +76,7 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
 
   const { tillTheEnd } = useSettingsStore();
 
-  const done = (!tillTheEnd && words.length >= 37) || states.every(x => x == BoardState.Solved);
+  const done = useMemo(() =>(!tillTheEnd && words.length >= 37) || states.every(x => x == BoardState.Solved), [tillTheEnd, words, states]);
   const is = inputStates.map(states => states.length > 0 ? states[states.length - 1] : InputState.Match);
 
   function removeInputState() {
@@ -126,18 +126,20 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
   }
 
   function onWordSelected(word: string) {
-    const ns = [...states];
-    if (selected !== undefined) {
-      ns[selected] = BoardState.Normal;
+    if (!done) {
+      const ns = [...states];
+      if (selected !== undefined) {
+        ns[selected] = BoardState.Normal;
+      }
+      const idx = answer.indexOf(word);
+      if (idx !== -1 && idx !== selected && ns[idx] === BoardState.Normal) {
+        ns[idx] = BoardState.Selected;
+        setSelected(idx);
+      } else {
+        setSelected(undefined);
+      }
+      setStates(ns);
     }
-    const idx = answer.indexOf(word);
-    if (idx !== -1 && idx !== selected && ns[idx] === BoardState.Normal) {
-      ns[idx] = BoardState.Selected;
-      setSelected(idx);
-    } else {
-      setSelected(undefined);
-    }
-    setStates(ns);
   }
 
   return (
@@ -149,6 +151,7 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
         words={wordsWithStatuses}
         states={states}
         inputStates={is}
+        done={done}
         onWordSelected={onWordSelected}
       />
       {!done ?
