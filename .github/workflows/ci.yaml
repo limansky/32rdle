@@ -1,16 +1,36 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    branches: ['master']
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurency:
+  group: 'pages'
+  cancel-in-progress: true
 
 jobs:
-  test:
+  build:
+    name: test and build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
       with:
-        node-version: 20.5
+        node-version: 20.11
         cache: yarn
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
 
     - name: Install dependencies
       run: yarn install
@@ -18,5 +38,24 @@ jobs:
     - name: Run tests
       run: yarn ci:test
 
-    - name: Build
+    - name: Build artifacts
       run: yarn build
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./dist
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
