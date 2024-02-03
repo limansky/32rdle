@@ -11,10 +11,6 @@ permissions:
   pages: write
   id-token: write
 
-concurency:
-  group: 'pages'
-  cancel-in-progress: true
-
 jobs:
   build:
     name: test and build
