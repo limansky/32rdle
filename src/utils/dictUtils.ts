@@ -9,7 +9,10 @@ export function genWords(ws: string[], seed: number): string[] {
     // NOTE: actualy it should be ws.length - 1, but this will break history,
     // so it must be filtered out later.
     const next = random.integer(0, ws.length);
-    if (!ids.includes(next) && next < ws.length) ids.push(next);
+    if (!ids.includes(next) &&
+        next < ws.length &&
+        ws[next].indexOf('-') === -1
+       ) ids.push(next);
   }
 
   return ids.map(x => ws[x]);
