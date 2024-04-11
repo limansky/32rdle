@@ -1,6 +1,9 @@
 32rdle
 ======
 
-This is my attempt to implement duotrigordle game from scratch using with React
-and TypeScript.  It's just have been started, so nothing is working.  This is
-mostly learning project, just to have some frontend develompent skills.
+This is my implementation of Dutrigordle game for Russian language.  However
+it's heavily inspired by original game available at www.duotrigordle.com the
+implementation was created from scratch.  Still have some bugs, but the main
+game features working fine.
+
+The game is available at 32.limansky.me.
