@@ -26,7 +26,7 @@ __metadata:
     vite: "npm:^5.2.8"
     vite-plugin-eslint: "npm:^1.8.1"
     vitest: "npm:^1.4.0"
-    wouter: "npm:^3.1.0"
+    wouter: "npm:^3.1.2"
     zustand: "npm:^4.5.2"
   languageName: unknown
   linkType: soft
@@ -4103,16 +4103,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wouter@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "wouter@npm:3.1.0"
+"wouter@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "wouter@npm:3.1.2"
   dependencies:
     mitt: "npm:^3.0.1"
     regexparam: "npm:^3.0.0"
     use-sync-external-store: "npm:^1.0.0"
   peerDependencies:
     react: ">=16.8.0"
-  checksum: 10c0/6c6c655060065b11fe90a09b23768d24671441e2b27fd226797319eac4ac1817a30969781ff7578b431a6daaf640be6c5cb3995f8eea32006602b73172f61229
+  checksum: 10c0/e3a0f452ba37ae2585a3d3539fffd709dd6aef610b7b850c27068575f618b0b3fa47dd520a9b61be0994af2019d61143fa6f13de896a3491dc1867f31e50a5a2
   languageName: node
   linkType: hard
 
