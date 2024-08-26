@@ -25,7 +25,7 @@ __metadata:
     typescript-eslint: "npm:^8.2.0"
     vite: "npm:^5.4.2"
     vitest: "npm:^2.0.5"
-    wouter: "npm:^3.3.1"
+    wouter: "npm:^3.3.4"
     zustand: "npm:^4.5.5"
   languageName: unknown
   linkType: soft
@@ -4015,16 +4015,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wouter@npm:^3.3.1":
-  version: 3.3.1
-  resolution: "wouter@npm:3.3.1"
+"wouter@npm:^3.3.4":
+  version: 3.3.4
+  resolution: "wouter@npm:3.3.4"
   dependencies:
     mitt: "npm:^3.0.1"
     regexparam: "npm:^3.0.0"
     use-sync-external-store: "npm:^1.0.0"
   peerDependencies:
     react: ">=16.8.0"
-  checksum: 10c0/701b3c21f831ae1111c73a3b3ebbbca1bc5af5141bec9b0d0cf750df6dc8da97e6e0086501cfe68aeb893c5b20979fb6c415e739ed73650289f04fdeda83f075
+  checksum: 10c0/76ec875fed59da888b5317b554d7c4180cede0609ea2504cbc7bb7afdd9ac3702e8b4682880a7b4fcea3b00c87cc4222c5d6e9047af740fb718ac2c4ab920abf
   languageName: node
   linkType: hard
 
