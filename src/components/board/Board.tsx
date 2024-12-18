@@ -31,7 +31,7 @@ export const Board = ({
   function letters(
     guess: Array<[string, LetterState]>,
     gs: boolean[]
-  ): [Array<JSX.Element>, Array<boolean>] {
+  ): [Array<React.JSX.Element>, Array<boolean>] {
     const r = guess.map((x, i) => {
       const [l, s] = x;
       gs[i] ||= s === LetterState.Guess;
@@ -46,7 +46,7 @@ export const Board = ({
   }
 
   let ng = Array(5).fill(false);
-  const opened: Array<Array<JSX.Element>> = words.map((word) => {
+  const opened: Array<Array<React.JSX.Element>> = words.map((word) => {
     const [l, g] = letters(word, ng);
     ng = g;
     return l;
@@ -54,9 +54,9 @@ export const Board = ({
 
   const { hideSolved } = useSettingsStore();
 
-  const inputLetters: Array<JSX.Element> = useMemo(() => {
-    function inputArea(input: string, g: boolean[]): Array<JSX.Element> {
-      const result = Array<JSX.Element>();
+  const inputLetters: Array<React.JSX.Element> = useMemo(() => {
+    function inputArea(input: string, g: boolean[]): Array<React.JSX.Element> {
+      const result = Array<React.JSX.Element>();
 
       for (let i = 0; i < input.length; i++) {
         result.push(
