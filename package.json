@@ -17,19 +17,19 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sanitize.css": "^13.0.0",
-    "wouter": "^3.5.1",
+    "wouter": "^3.6.0",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@nabla/vite-plugin-eslint": "^2.0.5",
-    "@types/react": "^19.0.8",
+    "@types/react": "^19.0.9",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^9.20.0",
+    "eslint": "^9.20.1",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "typescript": "^5.7.3",
-    "typescript-eslint": "^8.23.0",
+    "typescript-eslint": "^8.24.0",
     "vite": "^6.1.0",
     "vitest": "^3.0.5"
   },
