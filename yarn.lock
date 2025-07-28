@@ -9,7 +9,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "32rdle@workspace:."
   dependencies:
-    "@nabla/vite-plugin-eslint": "npm:^2.0.5"
+    "@nabla/vite-plugin-eslint": "npm:^2.0.6"
     "@types/react": "npm:^19.1.8"
     "@types/react-dom": "npm:^19.1.6"
     "@vitejs/plugin-react": "npm:^4.7.0"
@@ -780,17 +780,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nabla/vite-plugin-eslint@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "@nabla/vite-plugin-eslint@npm:2.0.5"
+"@nabla/vite-plugin-eslint@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "@nabla/vite-plugin-eslint@npm:2.0.6"
   dependencies:
     "@types/eslint": "npm:*"
     chalk: "npm:^4"
     debug: "npm:^4"
   peerDependencies:
     eslint: ^8.45 || ^9
-    vite: ^4 || ^5 || ^6
-  checksum: 10c0/6fb2b93d015d413683881a02bf295d60804e04812826b6ff1381bcc4a7584a5b2c61ccf9b9bb518278d8ee93f70dfd796b04f0be80cbcf20b7648b94e2d7ed45
+    vite: ^4 || ^5 || ^6 || ^7
+  checksum: 10c0/37ad6f6928b3fd3fb9314ffd3a42f16226135e928a117c9426fca93257555158b167aaf54b6ce754f7eca68ba85d29b0150fbdf8b3fc44e3bd4f4cbc063d7cf8
   languageName: node
   linkType: hard
 
