@@ -15,7 +15,7 @@
     "clsx": "^2.1.1",
     "random-js": "^2.1.0",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1",
+    "react-dom": "^19.2.0",
     "sanitize.css": "^13.0.0",
     "wouter": "^3.7.1",
     "zustand": "^5.0.8"
@@ -24,7 +24,7 @@
     "@nabla/vite-plugin-eslint": "^2.0.6",
     "@types/node": "^24.5.2",
     "@types/react": "^19.1.15",
-    "@types/react-dom": "^19.1.9",
+    "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.0.4",
     "eslint": "^9.36.0",
     "eslint-plugin-react-hooks": "^5.2.0",
