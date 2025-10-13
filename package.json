@@ -24,7 +24,7 @@
     "@nabla/vite-plugin-eslint": "^2.0.6",
     "@types/node": "^24.5.2",
     "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.2.0",
+    "@types/react-dom": "^19.2.1",
     "@vitejs/plugin-react": "^5.0.4",
     "eslint": "^9.36.0",
     "eslint-plugin-react-hooks": "^6.1.1",
