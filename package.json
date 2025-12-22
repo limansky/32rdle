@@ -14,7 +14,7 @@
   "dependencies": {
     "clsx": "^2.1.1",
     "random-js": "^2.1.0",
-    "react": "^19.2.1",
+    "react": "^19.2.3",
     "react-dom": "^19.2.1",
     "sanitize.css": "^13.0.0",
     "wouter": "^3.8.1",
