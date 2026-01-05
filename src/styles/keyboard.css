@@ -24,7 +24,6 @@
   grid-template-columns: 1.5fr repeat(9, 1fr) 1.5fr;
 }
 
-
 .keyboard-key {
   border-radius: 4px;
   border: none;

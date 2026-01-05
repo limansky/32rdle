@@ -1,23 +1,22 @@
-import { useEffect, useMemo, useState } from 'react';
-import '~/styles/game.css'
-import { Boards } from './board/Boards';
-import { Keyboard } from './Keyboard';
-import dict from '../data/dict.json';
-import { useWordsStore } from '../app/wordsStore';
-import { Header } from './header/Header';
-import { KeyState } from '../model/KeyState';
-import { calcInputStates, letterStat, wordStatuses } from '../utils/words';
-import { GameMode } from '../model/GameMode';
-import { BoardState } from '../model/BoardState';
-import { LetterState } from '../model/LetterState';
-import { Results } from './results/Results';
-import { InputState } from '../model/InputState';
-import { useSettingsStore } from '../app/settingsStore';
-import { genWords, seedForId } from '../utils/dictUtils';
-import { globalKeyState, wordKeyState } from '../utils/keyUtils';
+import { useEffect, useMemo, useState } from "react";
+import "~/styles/game.css";
+import { useSettingsStore } from "../app/settingsStore";
+import { useWordsStore } from "../app/wordsStore";
+import dict from "../data/dict.json";
+import { BoardState } from "../model/BoardState";
+import { GameMode } from "../model/GameMode";
+import { InputState } from "../model/InputState";
+import { KeyState } from "../model/KeyState";
+import { LetterState } from "../model/LetterState";
+import { genWords, seedForId } from "../utils/dictUtils";
+import { globalKeyState, wordKeyState } from "../utils/keyUtils";
+import { calcInputStates, letterStat, wordStatuses } from "../utils/words";
+import { Boards } from "./board/Boards";
+import { Header } from "./header/Header";
+import { Keyboard } from "./Keyboard";
+import { Results } from "./results/Results";
 
-export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
-
+export function Game({ mode, dailyId }: { mode: GameMode; dailyId: number }) {
   const [input, setInput] = useState("");
   const { words, id, addWord, startDaily } = useWordsStore();
 
@@ -30,34 +29,61 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
     }
   }, [id, startDaily, mode, dailyId]);
 
-  const knownWords: Array<string> = dict.map(x => x.toUpperCase());
+  const knownWords: Array<string> = dict.map((x) => x.toUpperCase());
   const [answer] = useState<Array<string>>(() => genWords(knownWords, seed));
-  const [states, setStates] = useState<Array<BoardState>>(answer.map(a =>
-    words.includes(a) ? BoardState.Solved : BoardState.Normal
-  ));
+  const [states, setStates] = useState<Array<BoardState>>(
+    answer.map((a) =>
+      words.includes(a) ? BoardState.Solved : BoardState.Normal,
+    ),
+  );
   const [selected, setSelected] = useState<number | undefined>(undefined);
-  const [inputStates, setInputStates] = useState<Array<Array<InputState>>>(Array(32).fill([]));
+  const [inputStates, setInputStates] = useState<Array<Array<InputState>>>(
+    Array(32).fill([]),
+  );
 
-  const wordsWithStatuses: Array<Array<Array<[string, LetterState]>>> = useMemo(() => wordStatuses(answer, words), [answer, words]);
-  const letterStats: Array<Map<string, number>> = useMemo(() => wordsWithStatuses.map(wss => letterStat(wss)), [wordsWithStatuses]);
-  const keyState: Map<string, KeyState> = selected !== undefined ?
-    wordKeyState(wordsWithStatuses[selected]) :
-    globalKeyState(answer, words, states);
+  const wordsWithStatuses: Array<Array<Array<[string, LetterState]>>> = useMemo(
+    () => wordStatuses(answer, words),
+    [answer, words],
+  );
+  const letterStats: Array<Map<string, number>> = useMemo(
+    () => wordsWithStatuses.map((wss) => letterStat(wss)),
+    [wordsWithStatuses],
+  );
+  const keyState: Map<string, KeyState> =
+    selected !== undefined
+      ? wordKeyState(wordsWithStatuses[selected])
+      : globalKeyState(answer, words, states);
 
   const { tillTheEnd } = useSettingsStore();
 
-  const done = useMemo(() =>(!tillTheEnd && words.length >= 37) || states.every(x => x == BoardState.Solved), [tillTheEnd, words, states]);
-  const is = inputStates.map(states => states.length > 0 ? states[states.length - 1] : InputState.Match);
+  const done = useMemo(
+    () =>
+      (!tillTheEnd && words.length >= 37) ||
+      states.every((x) => x == BoardState.Solved),
+    [tillTheEnd, words, states],
+  );
+  const is = inputStates.map((states) =>
+    states.length > 0 ? states[states.length - 1] : InputState.Match,
+  );
 
   function removeInputState() {
-    setInputStates(inputStates => inputStates.map(is => is.slice(0, -1)));
+    setInputStates((inputStates) => inputStates.map((is) => is.slice(0, -1)));
   }
 
   function onButton(s: string) {
     if (input.length < 5) {
       const newInput = input + s;
       setInput(newInput);
-      setInputStates(is => calcInputStates(knownWords, is, wordsWithStatuses, states, letterStats, newInput));
+      setInputStates((is) =>
+        calcInputStates(
+          knownWords,
+          is,
+          wordsWithStatuses,
+          states,
+          letterStats,
+          newInput,
+        ),
+      );
     }
   }
 
@@ -113,7 +139,7 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
   }
 
   return (
-    <div className='game'>
+    <div className="game">
       <Header moves={words.length} boards={states} title={title} />
       <Boards
         input={input}
@@ -124,11 +150,16 @@ export function Game({ mode, dailyId }: { mode: GameMode, dailyId: number }) {
         done={done}
         onWordSelected={onWordSelected}
       />
-      {!done ?
-        <Keyboard onLetter={onButton} onBackspace={onBackspace} onEnter={onEnter} keyState={keyState} /> :
+      {!done ? (
+        <Keyboard
+          onLetter={onButton}
+          onBackspace={onBackspace}
+          onEnter={onEnter}
+          keyState={keyState}
+        />
+      ) : (
         <Results gameTitle={title} answer={answer} words={words} />
-      }
+      )}
     </div>
   );
 }
-

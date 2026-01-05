@@ -13,15 +13,18 @@ interface Settings {
 }
 
 export const useSettingsStore = create<Settings>()(
-  persist((set) => ({
-    tillTheEnd: false,
-    hideSolved: false,
-    enterOnTheRight: true,
-    boardsPerRow: 4,
-    setTillTheEnd: (value: boolean) => set(() => ({ tillTheEnd: value })),
-    setHideSolved: (value: boolean) => set(() => ({ hideSolved: value })),
-    setEnterOnTheRight: (value: boolean) => set(() => ({ enterOnTheRight: value })),
-    setBordsPerRow: (value: number) => set(() => ({ boardsPerRow: value }))
-  }), { name: "32rdle-settings" }
-  )
-)
+  persist(
+    (set) => ({
+      tillTheEnd: false,
+      hideSolved: false,
+      enterOnTheRight: true,
+      boardsPerRow: 4,
+      setTillTheEnd: (value: boolean) => set(() => ({ tillTheEnd: value })),
+      setHideSolved: (value: boolean) => set(() => ({ hideSolved: value })),
+      setEnterOnTheRight: (value: boolean) =>
+        set(() => ({ enterOnTheRight: value })),
+      setBordsPerRow: (value: number) => set(() => ({ boardsPerRow: value })),
+    }),
+    { name: "32rdle-settings" },
+  ),
+);

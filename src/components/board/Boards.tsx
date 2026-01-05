@@ -6,17 +6,24 @@ import { LetterState } from "../../model/LetterState";
 import { Board } from "./Board";
 import "~/styles/boards.css";
 
-export function Boards({ input, answer, words, states, inputStates, done, onWordSelected }: {
-  input: string,
-  answer: string[],
-  words: Array<Array<Array<[string, LetterState]>>>,
-  states: BoardState[],
-  inputStates: InputState[],
-  done: boolean,
-  onWordSelected?: (word: string) => void
+export function Boards({
+  input,
+  answer,
+  words,
+  states,
+  inputStates,
+  done,
+  onWordSelected,
+}: {
+  input: string;
+  answer: string[];
+  words: Array<Array<Array<[string, LetterState]>>>;
+  states: BoardState[];
+  inputStates: InputState[];
+  done: boolean;
+  onWordSelected?: (word: string) => void;
 }) {
-
-  const boards = answer.map((w, i) =>
+  const boards = answer.map((w, i) => (
     <Board
       word={w}
       words={words[i]}
@@ -27,11 +34,11 @@ export function Boards({ input, answer, words, states, inputStates, done, onWord
       key={w}
       handleClick={onWordSelected}
     />
-  );
+  ));
 
   const { boardsPerRow } = useSettingsStore();
 
-  return <div className={clsx('boards', 'col-' + boardsPerRow)}>
-    {...boards}
-  </div>;
+  return (
+    <div className={clsx("boards", "col-" + boardsPerRow)}>{...boards}</div>
+  );
 }

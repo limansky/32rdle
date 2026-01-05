@@ -4,5 +4,5 @@ export enum KeyState {
   Absent,
   WrongPosition,
   Guess,
-  Special
+  Special,
 }

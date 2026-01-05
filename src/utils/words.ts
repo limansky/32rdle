@@ -26,7 +26,10 @@ export function wordStatus(word: string, guess: string): Array<LetterState> {
   return result;
 }
 
-export function wordStatuses(answer: string[], words: string[]): Array<Array<Array<[string, LetterState]>>> {
+export function wordStatuses(
+  answer: string[],
+  words: string[],
+): Array<Array<Array<[string, LetterState]>>> {
   const result = [];
 
   for (const a of answer) {
@@ -42,7 +45,9 @@ export function wordStatuses(answer: string[], words: string[]): Array<Array<Arr
   return result;
 }
 
-export function letterStat(wordStatus: Array<Array<[string, LetterState]>>): Map<string, number> {
+export function letterStat(
+  wordStatus: Array<Array<[string, LetterState]>>,
+): Map<string, number> {
   const result = new Map<string, number>();
 
   for (const ws of wordStatus) {
@@ -63,11 +68,11 @@ export function calcInputStates(
   wordsWithStatuses: Array<Array<Array<[string, LetterState]>>>,
   states: BoardState[],
   letterStat: Array<Map<string, number>>,
-  newInput: string
+  newInput: string,
 ): Array<Array<InputState>> {
   const s = newInput[newInput.length - 1];
   if (newInput.length === 5 && !dict.includes(newInput)) {
-    return initial.map(is => [...is, InputState.Invalid]);
+    return initial.map((is) => [...is, InputState.Invalid]);
   } else {
     return initial.map((bis, bid) => {
       if (states[bid] !== BoardState.Solved) {

@@ -1,4 +1,4 @@
-import { MersenneTwister19937, Random } from 'random-js';
+import { MersenneTwister19937, Random } from "random-js";
 
 const BEGIN_OF_TIME = new Date(2023, 7, 15);
 
@@ -9,13 +9,11 @@ export function genWords(ws: string[], seed: number): string[] {
     // NOTE: actualy it should be ws.length - 1, but this will break history,
     // so it must be filtered out later.
     const next = random.integer(0, ws.length);
-    if (!ids.includes(next) &&
-        next < ws.length &&
-        ws[next].indexOf('-') === -1
-       ) ids.push(next);
+    if (!ids.includes(next) && next < ws.length && ws[next].indexOf("-") === -1)
+      ids.push(next);
   }
 
-  return ids.map(x => ws[x]);
+  return ids.map((x) => ws[x]);
 }
 
 export function idForDate(d: Date): number {

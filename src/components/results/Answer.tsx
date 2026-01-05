@@ -1,10 +1,11 @@
-import '~/styles/results.css';
+import "~/styles/results.css";
 
-export function Answer({answer}: {answer: Array<string>}) {
+export function Answer({ answer }: { answer: Array<string> }) {
+  const words = answer.map((w) => (
+    <button className="answer" key={w}>
+      {w}
+    </button>
+  ));
 
-  const words = answer.map(w => <button className='answer' key={w}>{w}</button>);
-
-  return <div className='answer-board'>
-    {...words}
-  </div>
+  return <div className="answer-board">{...words}</div>;
 }

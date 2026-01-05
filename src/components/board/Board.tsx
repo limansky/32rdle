@@ -1,13 +1,13 @@
-import { useMemo } from "react";
-import { Letter } from "./Letter";
-import { InputLetter } from "./InputLetter";
 import clsx from "clsx";
+import { useMemo } from "react";
 import { BoardState } from "../../model/BoardState";
+import { InputLetter } from "./InputLetter";
+import { Letter } from "./Letter";
 
 import "~/styles/boards.css";
-import { LetterState } from "../../model/LetterState";
-import { InputState } from "../../model/InputState";
 import { useSettingsStore } from "../../app/settingsStore";
+import { InputState } from "../../model/InputState";
+import { LetterState } from "../../model/LetterState";
 
 interface Props {
   word: string;
@@ -30,7 +30,7 @@ export const Board = ({
 }: Props) => {
   function letters(
     guess: Array<[string, LetterState]>,
-    gs: boolean[]
+    gs: boolean[],
   ): [Array<React.JSX.Element>, Array<boolean>] {
     const r = guess.map((x, i) => {
       const [l, s] = x;
@@ -56,7 +56,7 @@ export const Board = ({
 
   const inputLetters: Array<React.JSX.Element> = useMemo(() => {
     function inputArea(input: string, g: boolean[]): Array<React.JSX.Element> {
-      const result = Array<React.JSX.Element>();
+      const result: React.JSX.Element[] = [];
 
       for (let i = 0; i < input.length; i++) {
         result.push(
@@ -64,13 +64,13 @@ export const Board = ({
             letter={input[i]}
             preview={g[i] ? word[i] : ""}
             state={inputState}
-          />
+          />,
         );
       }
 
       for (let i = input.length; i < 5; i++) {
         result.push(
-          <InputLetter preview={g[i] ? word[i] : ""} state={inputState} />
+          <InputLetter preview={g[i] ? word[i] : ""} state={inputState} />,
         );
       }
       return result;
