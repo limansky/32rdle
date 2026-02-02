@@ -15,7 +15,7 @@
     "clsx": "^2.1.1",
     "random-js": "^2.1.0",
     "react": "^19.2.3",
-    "react-dom": "^19.2.3",
+    "react-dom": "^19.2.4",
     "sanitize.css": "^13.0.0",
     "wouter": "^3.9.0",
     "zustand": "^5.0.10"
