@@ -6,4 +6,4 @@ it's heavily inspired by original game available at www.duotrigordle.com the
 implementation was created from scratch.  Still have some bugs, but the main
 game features working fine.
 
-The game is available at https://32.limansky.me.
+The game is available at [32.limansky.me](https://32.limansky.me).
