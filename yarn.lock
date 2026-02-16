@@ -21,7 +21,7 @@ __metadata:
     sanitize.css: "npm:^13.0.0"
     typescript: "npm:^5.9.3"
     vite: "npm:^7.3.1"
-    vite-plugin-biome: "npm:^1.1.1"
+    vite-plugin-biome: "npm:^1.1.2"
     vitest: "npm:^4.0.18"
     wouter: "npm:^3.9.0"
     zustand: "npm:^5.0.11"
@@ -2098,12 +2098,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-plugin-biome@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "vite-plugin-biome@npm:1.1.1"
+"vite-plugin-biome@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "vite-plugin-biome@npm:1.1.2"
   peerDependencies:
     "@biomejs/biome": ">=1.8.0"
-  checksum: 10c0/2b77397b4e430265b3a8b83db9583d9bf4c84b4d0f6572c821a9dae215e0056e455b61e6b1c8d3c34bca0173b8b6fedb381cd6e51fdd5cf47a1a4abdf741c7c4
+  checksum: 10c0/787096febcbf10aa84158676b001992ce85d50d9a7d82638a9b4b67adf0b83ecfb1ae3a02ff1aa706dbe7e777bc9c388da5facf33e5628ea040d52bd7cb0557f
   languageName: node
   linkType: hard
 
