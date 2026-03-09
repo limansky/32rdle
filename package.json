@@ -31,5 +31,5 @@
     "vite-plugin-biome": "^1.2.0",
     "vitest": "^4.0.18"
   },
-  "packageManager": "yarn@4.12.0"
+  "packageManager": "yarn@4.13.0"
 }
