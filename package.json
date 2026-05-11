@@ -18,7 +18,7 @@
     "react-dom": "^19.2.5",
     "sanitize.css": "^13.0.0",
     "wouter": "^3.9.0",
-    "zustand": "^5.0.12"
+    "zustand": "^5.0.13"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.14",
