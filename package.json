@@ -14,7 +14,7 @@
   "dependencies": {
     "clsx": "^2.1.1",
     "random-js": "^2.1.0",
-    "react": "^19.2.6",
+    "react": "^19.2.7",
     "react-dom": "^19.2.6",
     "sanitize.css": "^13.0.0",
     "wouter": "^3.10.0",
@@ -23,7 +23,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.4.15",
     "@types/node": "^25.9.1",
-    "@types/react": "^19.2.15",
+    "@types/react": "^19.2.16",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
     "typescript": "^6.0.3",
