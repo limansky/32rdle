@@ -15,7 +15,7 @@
     "clsx": "^2.1.1",
     "random-js": "^2.1.0",
     "react": "^19.3.0",
-    "react-dom": "^19.2.8",
+    "react-dom": "^19.3.0",
     "sanitize.css": "^13.0.0",
     "wouter": "^3.11.0",
     "zustand": "^5.0.15"
@@ -24,7 +24,7 @@
     "@biomejs/biome": "^2.5.12",
     "@types/node": "^26.5.1",
     "@types/react": "^19.3.0",
-    "@types/react-dom": "^19.2.7",
+    "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.1",
     "typescript": "^7.0.2",
     "vite": "^8.3.0",
