@@ -18,7 +18,10 @@ export function genWords(ws: string[], seed: number): string[] {
 
 export function idForDate(d: Date): number {
   d.setHours(0, 0, 0, 0);
-  return (d.getTime() - BEGIN_OF_TIME.getTime()) / 24 / 3600 / 1000 + 1;
+  // Round to compensate DST shifts between BEGIN_OF_TIME and d
+  return (
+    Math.round((d.getTime() - BEGIN_OF_TIME.getTime()) / 24 / 3600 / 1000) + 1
+  );
 }
 
 export function seedForId(id: number): number {
