@@ -34,7 +34,11 @@ function App() {
           </Route>
           <Route path="/daily/:id">
             {(params) => (
-              <Game mode={GameMode.Daily} dailyId={Number(params.id)} />
+              <Game
+                key={params.id}
+                mode={GameMode.Daily}
+                dailyId={Number(params.id)}
+              />
             )}
           </Route>
           <Route path="/today">

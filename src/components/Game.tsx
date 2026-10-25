@@ -16,27 +16,45 @@ import { Header } from "./header/Header";
 import { Keyboard } from "./Keyboard";
 import { Results } from "./results/Results";
 
+const knownWords: Array<string> = dict.map((x) => x.toUpperCase());
+const NO_WORDS: Array<string> = [];
+
 export function Game({ mode, dailyId }: { mode: GameMode; dailyId: number }) {
   const [input, setInput] = useState("");
-  const { words, id, addWord, startDaily } = useWordsStore();
+  const {
+    words: storedWords,
+    id,
+    mode: storedMode,
+    addWord,
+    startDaily,
+  } = useWordsStore();
 
   const title = useMemo(() => "Ежедневное 32рдле #" + dailyId, [dailyId]);
   const seed = useMemo(() => seedForId(dailyId), [dailyId]);
 
+  const isCurrentGame = storedMode === mode && id === dailyId;
+  // Persisted words may belong to another game until startDaily is applied
+  const words = isCurrentGame ? storedWords : NO_WORDS;
+
   useEffect(() => {
-    if (mode !== GameMode.Daily || id !== dailyId) {
+    if (!isCurrentGame) {
       startDaily(dailyId);
     }
-  }, [id, startDaily, mode, dailyId]);
+  }, [isCurrentGame, startDaily, dailyId]);
 
-  const knownWords: Array<string> = dict.map((x) => x.toUpperCase());
-  const [answer] = useState<Array<string>>(() => genWords(knownWords, seed));
-  const [states, setStates] = useState<Array<BoardState>>(
-    answer.map((a) =>
-      words.includes(a) ? BoardState.Solved : BoardState.Normal,
-    ),
-  );
+  const answer = useMemo(() => genWords(knownWords, seed), [seed]);
   const [selected, setSelected] = useState<number | undefined>(undefined);
+  const states: Array<BoardState> = useMemo(
+    () =>
+      answer.map((a, i) =>
+        words.includes(a)
+          ? BoardState.Solved
+          : i === selected
+            ? BoardState.Selected
+            : BoardState.Normal,
+      ),
+    [answer, words, selected],
+  );
   const [inputStates, setInputStates] = useState<Array<Array<InputState>>>(
     Array(32).fill([]),
   );
@@ -92,20 +110,12 @@ export function Game({ mode, dailyId }: { mode: GameMode; dailyId: number }) {
       if (knownWords.includes(input)) {
         addWord(input);
         const guess = answer.indexOf(input);
-        if (guess !== -1) {
-          const ns = [...states];
-          if (ns[guess] == BoardState.Selected) {
-            let next = (guess + 1) % 32;
-            while (ns[next] === BoardState.Solved && next != guess) {
-              next = (next + 1) % 32;
-            }
-            if (next != guess) {
-              ns[next] = BoardState.Selected;
-              setSelected(next);
-            }
+        if (guess !== -1 && guess === selected) {
+          let next = (guess + 1) % 32;
+          while (states[next] === BoardState.Solved && next != guess) {
+            next = (next + 1) % 32;
           }
-          ns[guess] = BoardState.Solved;
-          setStates(ns);
+          setSelected(next != guess ? next : undefined);
         }
       }
     }
@@ -123,18 +133,12 @@ export function Game({ mode, dailyId }: { mode: GameMode; dailyId: number }) {
 
   function onWordSelected(word: string) {
     if (!done) {
-      const ns = [...states];
-      if (selected !== undefined) {
-        ns[selected] = BoardState.Normal;
-      }
       const idx = answer.indexOf(word);
-      if (idx !== -1 && idx !== selected && ns[idx] === BoardState.Normal) {
-        ns[idx] = BoardState.Selected;
+      if (idx !== -1 && idx !== selected && states[idx] === BoardState.Normal) {
         setSelected(idx);
       } else {
         setSelected(undefined);
       }
-      setStates(ns);
     }
   }
 
