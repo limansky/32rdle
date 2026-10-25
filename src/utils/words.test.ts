@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import { LetterState } from "../model/LetterState";
-import { wordStatus } from "./words";
+import { letterStat, wordStatus } from "./words";
 
 test.each([
   [
@@ -60,4 +60,20 @@ test.each([
   ],
 ])("wordStatus(%s, %s) == %o", (word, guess, expected) => {
   expect(wordStatus(word, guess)).toStrictEqual(expected);
+});
+
+test("letterStat counts repeated letters", () => {
+  // answer "пакля", guess "кабак"
+  const stat = letterStat([
+    [
+      ["к", LetterState.WrongPosition],
+      ["а", LetterState.Guess],
+      ["б", LetterState.Miss],
+      ["а", LetterState.WrongPosition],
+      ["к", LetterState.Miss],
+    ],
+  ]);
+  expect(stat.get("а")).toEqual(2);
+  expect(stat.get("к")).toEqual(1);
+  expect(stat.get("б")).toEqual(0);
 });

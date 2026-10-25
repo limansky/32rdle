@@ -16,7 +16,7 @@ export function wordStatus(word: string, guess: string): Array<LetterState> {
   });
 
   [...guess].forEach((c, i) => {
-    if (count.get(c) ?? 0 > 0) {
+    if ((count.get(c) ?? 0) > 0) {
       if (word[i] !== c) {
         count.set(c, (count.get(c) ?? 0) - 1);
         result[i] = LetterState.WrongPosition;
@@ -54,7 +54,7 @@ export function letterStat(
     const count = new Map<string, number>();
     ws.forEach(([l, s]) => {
       const inc = s === LetterState.Miss ? 0 : 1;
-      count.set(l, count.get(l) ?? 0 + inc);
+      count.set(l, (count.get(l) ?? 0) + inc);
       result.set(l, Math.max(result.get(l) ?? 0, count.get(l) ?? 0));
     });
   }
